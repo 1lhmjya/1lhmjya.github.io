@@ -84,11 +84,11 @@ const NaturalTypewriter = ({ text, isTypingComplete, setIsTypingComplete }) => {
   return (
     <div 
       ref={containerRef}
-      className="text-[#FAF4D3]/90 text-lg leading-relaxed whitespace-pre-wrap max-h-[60vh] overflow-y-auto pr-4 custom-scrollbar font-mono md:font-sans"
+      className="text-[#C9D1D9] text-lg leading-relaxed whitespace-pre-wrap max-h-[60vh] overflow-y-auto pr-4 custom-scrollbar font-mono md:font-sans"
     >
       {displayedText}
       {!isTypingComplete && (
-        <span className="inline-block w-2 h-5 bg-[#D1AC00] ml-1 animate-pulse align-middle"></span>
+        <span className="inline-block w-2 h-5 bg-[#2EA043] ml-1 animate-pulse align-middle"></span>
       )}
     </div>
   );
@@ -153,48 +153,48 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
 
   const mindsets = [
     {
-      icon: <Layers className="w-6 h-6 text-[#D1AC00]" />,
+      icon: <Layers className="w-6 h-6 text-[#2EA043]" />,
       title: "Rapi & Masuk Akal",
       desc: "Saya percaya sesuatu yang baik dimulai dari pondasi yang logis. Rapi secara struktur di belakang layar, dan berjalan sangat lancar saat digunakan."
     },
     {
-      icon: <Lightbulb className="w-6 h-6 text-[#D1AC00]" />,
+      icon: <Lightbulb className="w-6 h-6 text-[#2EA043]" />,
       title: "Melihat dari Sudut Lain",
       desc: "Saya perfeksionis untuk urusan detail. Terkadang, solusi terbaik justru datang saat kita berani berpikir sedikit berbeda dari biasanya."
     },
     {
-      icon: <Sparkles className="w-6 h-6 text-[#D1AC00]" />,
+      icon: <Sparkles className="w-6 h-6 text-[#2EA043]" />,
       title: "Kompleks tapi Simpel",
       desc: "Melihat pola di balik kerumitan adalah hal yang saya sukai. Saya merancang sistem yang kompleks, tapi terasa sangat sederhana bagi penggunanya."
     },
     {
-      icon: <Compass className="w-6 h-6 text-[#D1AC00]" />,
+      icon: <Compass className="w-6 h-6 text-[#2EA043]" />,
       title: "Pasti Ada Jalan",
       desc: "Mentok? Tidak masalah. Pengalaman mengajari saya bahwa sesulit apapun tantangannya, selalu ada solusi dan jalan keluar."
     }
   ];
 
   return (
-    <div className="min-h-screen bg-[#0C1618] text-[#FAF4D3]/85 font-sans overflow-x-hidden relative selection:bg-[#D1AC00]/30 selection:text-[#FAF4D3]">
+    <div className="min-h-screen bg-[#0D1117] text-[#C9D1D9] font-sans overflow-x-hidden relative selection:bg-[#2EA043]/35 selection:text-[#F0F6FC]">
       
       {/* Background Ambient Efek Glow */}
       <div 
         className="fixed top-0 left-0 w-full h-full pointer-events-none z-0 transition-transform duration-1000 ease-out"
         style={{
-          background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(209, 172, 0, 0.12) 0%, rgba(0,0,0,0) 40%)`
+          background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(46, 160, 67, 0.14) 0%, rgba(0,0,0,0) 40%)`
         }}
       />
       
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-[#004643]/40 blur-[120px] z-0 mix-blend-screen" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-[#D1AC00]/15 blur-[120px] z-0 mix-blend-screen" />
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-[#161B22]/75 blur-[120px] z-0 mix-blend-screen" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-[#2EA043]/15 blur-[120px] z-0 mix-blend-screen" />
 
       {/* Navbar Simple */}
       <nav className="fixed w-full z-40 top-0 pt-6 px-6 md:px-12 mix-blend-difference">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <span className="font-semibold text-[#FAF4D3] tracking-wide text-lg">
-            Profile<span className="text-[#D1AC00]">.</span>
+          <span className="font-semibold text-[#F0F6FC] tracking-wide text-lg">
+            Profile<span className="text-[#2EA043]">.</span>
           </span>
-          <a href="#halo" className="text-sm font-medium hover:text-[#F6BE9A] transition-colors duration-300">
+          <a href="#halo" className="text-sm font-medium hover:text-[#F0F6FC] transition-colors duration-300">
             Mari Ngobrol
           </a>
         </div>
@@ -206,27 +206,27 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           {/* SECTION 1: HERO */}
           <section className="min-h-[90vh] flex flex-col justify-center pt-20">
             <RevealOnScroll>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FAF4D3]/5 border border-[#F6BE9A]/20 backdrop-blur-sm mb-8 text-sm text-[#F6BE9A]/85">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#161B22]/70 border border-[#30363D] backdrop-blur-sm mb-8 text-sm text-[#8B949E]">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D1AC00] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D1AC00]"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2EA043] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2EA043]"></span>
                 </span>
                 Tersedia untuk kolaborasi
               </div>
             </RevealOnScroll>
             
             <RevealOnScroll delay={100}>
-              <h1 className="text-5xl md:text-7xl font-bold text-[#FAF4D3] tracking-tight leading-[1.1] mb-8">
+              <h1 className="text-5xl md:text-7xl font-bold text-[#F0F6FC] tracking-tight leading-[1.1] mb-8">
                 Membereskan hal rumit, <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D1AC00] to-[#F6BE9A]">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2EA043] to-[#3FB950]">
                   membuatnya jadi simpel.
                 </span>
               </h1>
             </RevealOnScroll>
 
             <RevealOnScroll delay={200}>
-              <p className="text-lg md:text-xl text-[#F6BE9A]/85 max-w-2xl leading-relaxed mb-12">
-                Saya merancang dan membangun sistem digital. Tidak cuma asal jalan, tapi dipikirkan dengan sangat logis dan detail. Karena pada akhirnya, Anda hanya ingin tahu satu hal: <span className="text-[#FAF4D3] font-medium">semuanya bekerja dengan sempurna.</span>
+              <p className="text-lg md:text-xl text-[#8B949E] max-w-2xl leading-relaxed mb-12">
+                Saya merancang dan membangun sistem digital. Tidak cuma asal jalan, tapi dipikirkan dengan sangat logis dan detail. Karena pada akhirnya, Anda hanya ingin tahu satu hal: <span className="text-[#F0F6FC] font-medium">semuanya bekerja dengan sempurna.</span>
               </p>
             </RevealOnScroll>
 
@@ -234,7 +234,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
               <div className="flex flex-wrap items-center gap-6">
                 <button 
                   onClick={() => setIsModalOpen(true)}
-                  className="group flex items-center gap-3 bg-[#FAF4D3] text-[#0C1618] px-7 py-4 rounded-full font-medium hover:bg-[#F6BE9A] transition-all duration-300 shadow-[0_0_40px_rgba(250,244,211,0.15)] hover:shadow-[0_0_50px_rgba(246,190,154,0.25)] transform hover:-translate-y-1"
+                  className="group flex items-center gap-3 bg-[#2EA043] text-[#F0F6FC] px-7 py-4 rounded-full font-medium hover:bg-[#3FB950] transition-all duration-300 shadow-[0_0_40px_rgba(46,160,67,0.22)] hover:shadow-[0_0_50px_rgba(46,160,67,0.35)] transform hover:-translate-y-1"
                 >
                   <Bot className="w-5 h-5" />
                   Kenali saya lebih jauh
@@ -247,21 +247,21 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           {/* SECTION 2: MINDSET */}
           <section className="py-24">
             <RevealOnScroll>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#FAF4D3] mb-12">Cara Kerja.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#F0F6FC] mb-12">Cara Kerja.</h2>
             </RevealOnScroll>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {mindsets.map((item, index) => (
                 <RevealOnScroll key={index} delay={index * 150}>
-                  <div className="group relative p-8 rounded-3xl bg-[#FAF4D3]/5 border border-[#F6BE9A]/20 hover:bg-[#FAF4D3]/10 transition-all duration-500 overflow-hidden h-full">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#D1AC00]/20 rounded-full blur-[50px] group-hover:bg-[#D1AC00]/30 transition-all duration-500" />
+                  <div className="group relative p-8 rounded-3xl bg-[#161B22]/80 border border-[#30363D] hover:bg-[#21262D] transition-all duration-500 overflow-hidden h-full">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#2EA043]/15 rounded-full blur-[50px] group-hover:bg-[#2EA043]/25 transition-all duration-500" />
                     
                     <div className="relative z-10">
-                      <div className="mb-6 p-4 rounded-2xl bg-[#FAF4D3]/10 inline-block shadow-inner shadow-[#FAF4D3]/20 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500">
+                      <div className="mb-6 p-4 rounded-2xl bg-[#0D1117]/70 inline-block shadow-inner shadow-[#30363D] group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500">
                         {item.icon}
                       </div>
-                      <h3 className="text-xl font-semibold text-[#FAF4D3] mb-3">{item.title}</h3>
-                      <p className="text-[#F6BE9A]/85 leading-relaxed text-sm md:text-base">
+                      <h3 className="text-xl font-semibold text-[#F0F6FC] mb-3">{item.title}</h3>
+                      <p className="text-[#8B949E] leading-relaxed text-sm md:text-base">
                         {item.desc}
                       </p>
                     </div>
@@ -272,9 +272,9 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           </section>
 
           {/* SECTION 3: APA YANG BISA DILAKUKAN */}
-          <section className="py-24 border-t border-[#F6BE9A]/15">
+          <section className="py-24 border-t border-[#30363D]">
             <RevealOnScroll>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#FAF4D3] mb-16 text-center">Fokus Layanan</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#F0F6FC] mb-16 text-center">Fokus Layanan</h2>
             </RevealOnScroll>
 
             <div className="space-y-4 max-w-4xl mx-auto">
@@ -285,9 +285,9 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
                 "Memecahkan 'masalah mustahil' yang mungkin ditinggalkan developer sebelumnya."
               ].map((text, i) => (
                 <RevealOnScroll key={i} delay={i * 100}>
-                  <div className="flex items-center gap-4 p-6 rounded-2xl hover:bg-[#FAF4D3]/5 transition-colors duration-300">
-                    <CheckCircle2 className="w-6 h-6 text-[#D1AC00] flex-shrink-0" />
-                    <p className="text-[#FAF4D3]/90 text-lg">{text}</p>
+                  <div className="flex items-center gap-4 p-6 rounded-2xl hover:bg-[#161B22]/80 transition-colors duration-300">
+                    <CheckCircle2 className="w-6 h-6 text-[#2EA043] flex-shrink-0" />
+                    <p className="text-[#C9D1D9] text-lg">{text}</p>
                   </div>
                 </RevealOnScroll>
               ))}
@@ -297,12 +297,12 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           {/* SECTION 4: CALL TO ACTION (HALO) */}
           <section id="halo" className="py-32 mb-10">
             <RevealOnScroll>
-              <div className="relative rounded-[2.5rem] bg-gradient-to-br from-[#004643]/70 to-[#0C1618]/80 border border-[#F6BE9A]/20 p-10 md:p-20 text-center overflow-hidden">
+              <div className="relative rounded-[2.5rem] bg-gradient-to-br from-[#161B22] to-[#0D1117] border border-[#30363D] p-10 md:p-20 text-center overflow-hidden">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
                 
                 <div className="relative z-10">
-                  <h2 className="text-4xl md:text-5xl font-bold text-[#FAF4D3] mb-6">Mari temukan solusinya bersama.</h2>
-                  <p className="text-xl text-[#F6BE9A]/85 max-w-2xl mx-auto mb-10">
+                  <h2 className="text-4xl md:text-5xl font-bold text-[#F0F6FC] mb-6">Mari temukan solusinya bersama.</h2>
+                  <p className="text-xl text-[#8B949E] max-w-2xl mx-auto mb-10">
                     Punya ide kompleks atau masalah sistem yang terasa buntu? Kirim pesan lewat WhatsApp, kita ngobrol santai.
                   </p>
                   
@@ -311,7 +311,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Hubungi via WhatsApp"
-                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#D1AC00] hover:bg-[#F6BE9A] text-[#0C1618] rounded-full font-medium transition-all duration-300 shadow-[0_0_30px_rgba(209,172,0,0.35)] hover:shadow-[0_0_40px_rgba(246,190,154,0.45)] transform hover:-translate-y-1"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#2EA043] hover:bg-[#3FB950] text-[#F0F6FC] rounded-full font-medium transition-all duration-300 shadow-[0_0_30px_rgba(46,160,67,0.3)] hover:shadow-[0_0_40px_rgba(46,160,67,0.45)] transform hover:-translate-y-1"
                   >
                     <MessageCircle className="w-5 h-5" />
                     Chat WhatsApp
@@ -325,9 +325,9 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
       </main>
 
       {/* Footer Minimalis */}
-      <footer className="relative z-10 border-t border-[#F6BE9A]/15 py-10">
+      <footer className="relative z-10 border-t border-[#30363D] py-10">
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[#F6BE9A]/65 text-sm text-center md:text-left">
+          <p className="text-[#8B949E] text-sm text-center md:text-left">
             Dibuat dengan logika, dedikasi, & secangkir kopi. &copy; {new Date().getFullYear()}
           </p>
           <div className="flex gap-6">
@@ -336,7 +336,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub profile"
-              className="text-[#F6BE9A]/65 hover:text-[#FAF4D3] transition-colors"
+              className="text-[#8B949E] hover:text-[#F0F6FC] transition-colors"
             >
               <Github className="w-5 h-5" />
             </a>
@@ -345,7 +345,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp chat"
-              className="text-[#F6BE9A]/65 hover:text-[#FAF4D3] transition-colors"
+              className="text-[#8B949E] hover:text-[#F0F6FC] transition-colors"
             >
               <MessageCircle className="w-5 h-5" />
             </a>
@@ -358,25 +358,25 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
           {/* Overlay Backdrop Blur */}
           <div 
-            className="absolute inset-0 bg-[#0C1618]/80 backdrop-blur-md transition-opacity duration-500"
+            className="absolute inset-0 bg-[#010409]/85 backdrop-blur-md transition-opacity duration-500"
             onClick={closeModal}
           ></div>
           
           {/* Modal Content Box */}
           <div 
-            className="relative w-full max-w-2xl bg-[#0C1618] border border-[#D1AC00]/40 rounded-2xl shadow-[0_0_50px_rgba(0,70,67,0.35)] overflow-hidden transform transition-all duration-500 scale-100 opacity-100"
+            className="relative w-full max-w-2xl bg-[#0D1117] border border-[#30363D] rounded-2xl shadow-[0_0_50px_rgba(46,160,67,0.15)] overflow-hidden transform transition-all duration-500 scale-100 opacity-100"
             onClick={(e) => e.stopPropagation()} // Mencegah klik di dalam modal menutup modal
           >
             {/* Header Modal */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#D1AC00]/30 bg-[#004643]/40">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#30363D] bg-[#161B22]/85">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#D1AC00]/20 flex items-center justify-center border border-[#D1AC00]/40">
-                  <Bot className="w-4 h-4 text-[#D1AC00]" />
+                <div className="w-8 h-8 rounded-full bg-[#2EA043]/20 flex items-center justify-center border border-[#2EA043]/35">
+                  <Bot className="w-4 h-4 text-[#2EA043]" />
                 </div>
                 <div>
-                  <h3 className="text-[#FAF4D3] font-medium text-sm">AI Copilot</h3>
+                  <h3 className="text-[#F0F6FC] font-medium text-sm">AI Copilot</h3>
                   {!isTypingComplete && (
-                    <p className="text-[#F6BE9A]/80 text-xs">
+                    <p className="text-[#8B949E] text-xs">
                       Mengetik pesan{typingDots}
                     </p>
                   )}
@@ -384,7 +384,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
               </div>
               <button 
                 onClick={closeModal}
-                className="text-[#F6BE9A]/70 hover:text-[#FAF4D3] transition-colors p-1"
+                className="text-[#8B949E] hover:text-[#F0F6FC] transition-colors p-1"
                 aria-label="Tutup"
               >
                 <X className="w-5 h-5" />
@@ -403,7 +403,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
               <div className={`mt-8 transition-all duration-1000 transform ${isTypingComplete ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
                 <button 
                   onClick={closeModal}
-                  className="w-full py-3 rounded-xl bg-[#FAF4D3]/10 hover:bg-[#FAF4D3]/15 border border-[#F6BE9A]/25 text-[#FAF4D3] font-medium transition-colors"
+                  className="w-full py-3 rounded-xl bg-[#161B22] hover:bg-[#21262D] border border-[#30363D] text-[#F0F6FC] font-medium transition-colors"
                 >
                   Tutup Pesan & Lanjutkan
                 </button>
@@ -411,7 +411,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
             </div>
             
             {/* Subtle glow border di bagian bawah modal */}
-            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#D1AC00]/60 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#2EA043]/70 to-transparent"></div>
           </div>
         </div>
       )}
@@ -422,15 +422,15 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(246, 190, 154, 0.08);
+          background: rgba(48, 54, 61, 0.55);
           border-radius: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(209, 172, 0, 0.35);
+          background: rgba(46, 160, 67, 0.45);
           border-radius: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(209, 172, 0, 0.6);
+          background: rgba(46, 160, 67, 0.7);
         }
       `}} />
 
