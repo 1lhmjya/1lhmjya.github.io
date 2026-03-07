@@ -6,6 +6,7 @@ import {
   Lightbulb, 
   Layers,
   Github,
+  ExternalLink,
   MessageCircle,
   CheckCircle2,
   X,
@@ -185,6 +186,30 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
     }
   ];
 
+  const featuredProjects = [
+    {
+      title: "Portfolio Website",
+      summary: "Website portfolio personal dengan pendekatan UI modern, copy storytelling, dan optimasi deployment ke GitHub Pages.",
+      stack: ["React", "Tailwind CSS", "GitHub Pages"],
+      demoUrl: "https://1lhmjya.github.io/",
+      repoUrl: "https://github.com/1lhmjya/1lhmjya.github.io"
+    },
+    {
+      title: "Dashboard Operasional (Private)",
+      summary: "Contoh dashboard untuk monitoring KPI dan status operasional real-time dengan struktur komponen yang mudah dikembangkan.",
+      stack: ["React", "REST API", "Data Visualization"],
+      demoUrl: null,
+      repoUrl: null
+    },
+    {
+      title: "Workflow Automation (Private)",
+      summary: "Rangkaian automasi proses rutin untuk memangkas pekerjaan manual dan meningkatkan konsistensi alur kerja tim.",
+      stack: ["Automation", "Integration", "Scripting"],
+      demoUrl: null,
+      repoUrl: null
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-[#0D1117] text-[#C9D1D9] font-sans overflow-x-hidden relative selection:bg-[#2EA043]/35 selection:text-[#F0F6FC]">
       
@@ -211,9 +236,9 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           <span className="font-semibold text-[#F0F6FC] tracking-wide text-lg">
             Profile<span className="text-[#2EA043]">.</span>
           </span>
-          <a href="#halo" className="text-sm font-medium hover:text-[#F0F6FC] transition-colors duration-300">
+          <span className="text-sm font-medium text-[#C9D1D9]">
             Ilham Jaya
-          </a>
+          </span>
         </div>
       </nav>
 
@@ -318,7 +343,71 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
             </div>
           </section>
 
-          {/* SECTION 4: CALL TO ACTION (HALO) */}
+          {/* SECTION 4: PROYEK PILIHAN */}
+          <section id="projects" className="py-24 border-t border-[#30363D]">
+            <RevealOnScroll>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#F0F6FC] mb-5 text-center">Proyek Pilihan</h2>
+            </RevealOnScroll>
+            <RevealOnScroll delay={80}>
+              <p className="text-[#8B949E] text-center max-w-2xl mx-auto mb-14">
+                Beberapa contoh yang merepresentasikan pendekatan kerja saya: cepat dipahami, rapi, dan fokus ke dampak.
+              </p>
+            </RevealOnScroll>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {featuredProjects.map((project, index) => (
+                <RevealOnScroll key={project.title} delay={index * 120}>
+                  <article className="h-full rounded-3xl bg-[#161B22]/80 border border-[#30363D] p-7 hover:bg-[#21262D] transition-all duration-300">
+                    <h3 className="text-[#F0F6FC] text-xl font-semibold mb-3">{project.title}</h3>
+                    <p className="text-[#8B949E] text-sm leading-relaxed mb-5">{project.summary}</p>
+
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {project.stack.map((item) => (
+                        <span
+                          key={item}
+                          className="inline-flex items-center px-2.5 py-1 rounded-full text-xs bg-[#0D1117] border border-[#30363D] text-[#C9D1D9]"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3">
+                      {project.demoUrl ? (
+                        <a
+                          href={project.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-sm text-[#2EA043] hover:text-[#3FB950] transition-colors"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          Live Demo
+                        </a>
+                      ) : (
+                        <span className="text-sm text-[#8B949E]">Live Demo: Private</span>
+                      )}
+
+                      {project.repoUrl ? (
+                        <a
+                          href={project.repoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-sm text-[#C9D1D9] hover:text-[#F0F6FC] transition-colors"
+                        >
+                          <Github className="w-4 h-4" />
+                          Repository
+                        </a>
+                      ) : (
+                        <span className="text-sm text-[#8B949E]">Repository: Private</span>
+                      )}
+                    </div>
+                  </article>
+                </RevealOnScroll>
+              ))}
+            </div>
+          </section>
+
+          {/* SECTION 5: CALL TO ACTION (HALO) */}
           <section id="halo" className="py-32 mb-10">
             <RevealOnScroll>
               <div className="relative rounded-[2.5rem] bg-gradient-to-br from-[#161B22] to-[#0D1117] border border-[#30363D] p-10 md:p-20 text-center overflow-hidden">
