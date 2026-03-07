@@ -438,7 +438,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
       </main>
 
       {/* Footer Minimalis */}
-      <footer className="relative z-10 border-t border-[#30363D] py-10">
+      <footer className="relative z-10 border-t border-[#30363D] pt-8 pb-4 md:pb-6">
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[#8B949E] text-sm text-center md:text-left">
             Dibuat dengan logika, dedikasi, & secangkir kopi. &copy; {new Date().getFullYear()}
