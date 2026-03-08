@@ -236,8 +236,8 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           <span className="font-semibold text-[#F0F6FC] tracking-wide text-lg">
             Profile<span className="text-[#2EA043]">.</span>
           </span>
-          <span className="text-sm font-medium text-[#C9D1D9]">
-            Ilham Jaya
+          <span className="font-semibold text-[#F0F6FC] tracking-wide text-lg">
+            Ilham <span className="text-[#2EA043]">Jaya</span>
           </span>
         </div>
       </nav>
