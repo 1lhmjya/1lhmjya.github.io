@@ -89,7 +89,7 @@ const NaturalTypewriter = ({ text, isTypingComplete, setIsTypingComplete }) => {
     >
       {displayedText}
       {!isTypingComplete && (
-        <span className="inline-block w-2 h-5 bg-[#2EA043] ml-1 animate-pulse align-middle"></span>
+        <span className="inline-block w-2 h-5 bg-[#00877b] ml-1 animate-pulse align-middle"></span>
       )}
     </div>
   );
@@ -165,22 +165,22 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
 
   const mindsets = [
     {
-      icon: <Layers className="w-6 h-6 text-[#2EA043]" />,
+      icon: <Layers className="w-6 h-6 text-[#00877b]" />,
       title: "Rapi & Masuk Akal",
       desc: "Saya percaya sesuatu yang baik dimulai dari pondasi yang logis. Rapi secara struktur di belakang layar, dan berjalan sangat lancar saat digunakan."
     },
     {
-      icon: <Lightbulb className="w-6 h-6 text-[#2EA043]" />,
+      icon: <Lightbulb className="w-6 h-6 text-[#00877b]" />,
       title: "Melihat dari Sudut Lain",
       desc: "Saya perfeksionis untuk urusan detail. Terkadang, solusi terbaik justru datang saat kita berani berpikir sedikit berbeda dari biasanya."
     },
     {
-      icon: <Sparkles className="w-6 h-6 text-[#2EA043]" />,
+      icon: <Sparkles className="w-6 h-6 text-[#00877b]" />,
       title: "Kompleks tapi Simpel",
       desc: "Melihat pola di balik kerumitan adalah hal yang saya sukai. Saya merancang sistem yang kompleks, tapi terasa sangat sederhana bagi penggunanya."
     },
     {
-      icon: <Compass className="w-6 h-6 text-[#2EA043]" />,
+      icon: <Compass className="w-6 h-6 text-[#00877b]" />,
       title: "Pasti Ada Jalan",
       desc: "Mentok? Tidak masalah. Pengalaman mengajari saya bahwa sesulit apapun tantangannya, selalu ada solusi dan jalan keluar."
     }
@@ -211,7 +211,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
   ];
 
   return (
-    <div className="min-h-screen bg-[#0D1117] text-[#C9D1D9] font-sans overflow-x-hidden relative selection:bg-[#2EA043]/35 selection:text-[#F0F6FC]">
+    <div className="min-h-screen bg-[#0D1117] text-[#C9D1D9] font-sans overflow-x-hidden relative selection:bg-[#00877b]/35 selection:text-[#F0F6FC]">
       
       {/* Background Ambient Efek Glow */}
       <div 
@@ -221,8 +221,8 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
         }}
       />
       
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-[#161B22]/75 blur-[120px] z-0 mix-blend-screen" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-[#2EA043]/15 blur-[120px] z-0 mix-blend-screen" />
+      <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-[#161B22]/75 blur-[120px] z-0 mix-blend-screen pointer-events-none" />
+      <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-[#00877b]/15 blur-[120px] z-0 mix-blend-screen pointer-events-none" />
 
       {/* Navbar Simple */}
       <nav
@@ -234,10 +234,10 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
       >
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <span className="font-semibold text-[#F0F6FC] tracking-wide text-lg">
-            Profile<span className="text-[#2EA043]">.</span>
+            Profile<span className="text-[#00877b]">.</span>
           </span>
           <span className="font-semibold text-[#F0F6FC] tracking-wide text-lg">
-            Ilham <span className="text-[#2EA043]">Jaya</span>
+            Ilham <span className="text-[#00877b]">Jaya</span>
           </span>
         </div>
       </nav>
@@ -252,12 +252,12 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
                 <img
                   src="/profil.png"
                   alt="Foto profil Ilham Jaya"
-                  className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border border-[#30363D] shadow-[0_0_30px_rgba(46,160,67,0.15)]"
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border border-[#30363D] shadow-[0_0_30px_rgba(0,135,123,0.15)]"
                 />
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#161B22]/70 border border-[#30363D] backdrop-blur-sm text-sm text-[#8B949E]">
                   <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2EA043] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2EA043]"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00877b] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00877b]"></span>
                   </span>
                   Tersedia untuk kolaborasi
                 </div>
@@ -267,7 +267,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
             <RevealOnScroll delay={100}>
               <h1 className="text-5xl md:text-7xl font-bold text-[#F0F6FC] tracking-tight leading-[1.1] mb-8">
                 Membereskan hal rumit, <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2EA043] to-[#3FB950]">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00877b] to-[#00877b]">
                   membuatnya jadi simpel.
                 </span>
               </h1>
@@ -283,7 +283,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
               <div className="flex flex-wrap items-center gap-6">
                 <button 
                   onClick={() => setIsModalOpen(true)}
-                  className="group flex items-center gap-3 bg-[#2EA043] text-[#F0F6FC] px-7 py-4 rounded-full font-medium hover:bg-[#3FB950] transition-all duration-300 shadow-[0_0_40px_rgba(46,160,67,0.22)] hover:shadow-[0_0_50px_rgba(46,160,67,0.35)] transform hover:-translate-y-1"
+                  className="group flex items-center gap-3 bg-[#00877b] text-[#F0F6FC] px-7 py-4 rounded-full font-medium hover:bg-[#00877b] transition-all duration-300 shadow-[0_0_40px_rgba(0,135,123,0.22)] hover:shadow-[0_0_50px_rgba(0,135,123,0.35)] transform hover:-translate-y-1"
                 >
                   <Bot className="w-5 h-5" />
                   Kenali saya lebih jauh
@@ -303,7 +303,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
               {mindsets.map((item, index) => (
                 <RevealOnScroll key={index} delay={index * 150}>
                   <div className="group relative p-8 rounded-3xl bg-[#161B22]/80 border border-[#30363D] hover:bg-[#21262D] transition-all duration-500 overflow-hidden h-full">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#2EA043]/15 rounded-full blur-[50px] group-hover:bg-[#2EA043]/25 transition-all duration-500" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#00877b]/15 rounded-full blur-[50px] group-hover:bg-[#00877b]/25 transition-all duration-500" />
                     
                     <div className="relative z-10">
                       <div className="mb-6 p-4 rounded-2xl bg-[#0D1117]/70 inline-block shadow-inner shadow-[#30363D] group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500">
@@ -335,7 +335,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
               ].map((text, i) => (
                 <RevealOnScroll key={i} delay={i * 100}>
                   <div className="flex items-center gap-4 p-6 rounded-2xl hover:bg-[#161B22]/80 transition-colors duration-300">
-                    <CheckCircle2 className="w-6 h-6 text-[#2EA043] flex-shrink-0" />
+                    <CheckCircle2 className="w-6 h-6 text-[#00877b] flex-shrink-0" />
                     <p className="text-[#C9D1D9] text-lg">{text}</p>
                   </div>
                 </RevealOnScroll>
@@ -378,7 +378,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
                           href={project.demoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-sm text-[#2EA043] hover:text-[#3FB950] transition-colors"
+                          className="inline-flex items-center gap-2 text-sm text-[#00877b] hover:text-[#00877b] transition-colors"
                         >
                           <ExternalLink className="w-4 h-4" />
                           Live Demo
@@ -424,7 +424,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Hubungi via WhatsApp"
-                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#2EA043] hover:bg-[#3FB950] text-[#F0F6FC] rounded-full font-medium transition-all duration-300 shadow-[0_0_30px_rgba(46,160,67,0.3)] hover:shadow-[0_0_40px_rgba(46,160,67,0.45)] transform hover:-translate-y-1"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#00877b] hover:bg-[#00877b] text-[#F0F6FC] rounded-full font-medium transition-all duration-300 shadow-[0_0_30px_rgba(0,135,123,0.3)] hover:shadow-[0_0_40px_rgba(0,135,123,0.45)] transform hover:-translate-y-1"
                   >
                     <MessageCircle className="w-5 h-5" />
                     Chat WhatsApp
@@ -477,14 +477,14 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           
           {/* Modal Content Box */}
           <div 
-            className="relative w-full max-w-2xl bg-[#0D1117] border border-[#30363D] rounded-2xl shadow-[0_0_50px_rgba(46,160,67,0.15)] overflow-hidden transform transition-all duration-500 scale-100 opacity-100"
+            className="relative w-full max-w-2xl bg-[#0D1117] border border-[#30363D] rounded-2xl shadow-[0_0_50px_rgba(0,135,123,0.15)] overflow-hidden transform transition-all duration-500 scale-100 opacity-100"
             onClick={(e) => e.stopPropagation()} // Mencegah klik di dalam modal menutup modal
           >
             {/* Header Modal */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-[#30363D] bg-[#161B22]/85">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#2EA043]/20 flex items-center justify-center border border-[#2EA043]/35">
-                  <Bot className="w-4 h-4 text-[#2EA043]" />
+                <div className="w-8 h-8 rounded-full bg-[#00877b]/20 flex items-center justify-center border border-[#00877b]/35">
+                  <Bot className="w-4 h-4 text-[#00877b]" />
                 </div>
                 <div>
                   <h3 className="text-[#F0F6FC] font-medium text-sm">AI Copilot</h3>
@@ -524,7 +524,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
             </div>
             
             {/* Subtle glow border di bagian bawah modal */}
-            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#2EA043]/70 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#00877b]/70 to-transparent"></div>
           </div>
         </div>
       )}
