@@ -246,7 +246,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
         <div className="max-w-5xl mx-auto">
 
           {/* SECTION 1: HERO */}
-          <section className="min-h-[90vh] flex flex-col justify-center pt-8">
+          <section className="min-h-[82vh] flex flex-col justify-center pt-6">
             <RevealOnScroll>
               <div className="mb-8 flex items-center gap-4">
                 <img
@@ -294,7 +294,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           </section>
 
           {/* SECTION 2: MINDSET */}
-          <section className="py-24">
+          <section className="py-20">
             <RevealOnScroll>
               <h2 className="text-3xl md:text-4xl font-bold text-[#F0F6FC] mb-12">Cara Kerja.</h2>
             </RevealOnScroll>
@@ -321,7 +321,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           </section>
 
           {/* SECTION 3: APA YANG BISA DILAKUKAN */}
-          <section className="py-24 border-t border-[#30363D]">
+          <section className="py-20 border-t border-[#30363D]">
             <RevealOnScroll>
               <h2 className="text-3xl md:text-4xl font-bold text-[#F0F6FC] mb-16 text-center">Fokus Layanan</h2>
             </RevealOnScroll>
@@ -344,7 +344,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           </section>
 
           {/* SECTION 4: PROYEK PILIHAN */}
-          <section id="projects" className="py-24 border-t border-[#30363D]">
+          <section id="projects" className="py-20 border-t border-[#30363D]">
             <RevealOnScroll>
               <h2 className="text-3xl md:text-4xl font-bold text-[#F0F6FC] mb-5 text-center">Proyek Pilihan</h2>
             </RevealOnScroll>
@@ -408,7 +408,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           </section>
 
           {/* SECTION 5: CALL TO ACTION (HALO) */}
-          <section id="halo" className="py-32 mb-10">
+          <section id="halo" className="py-24 mb-4">
             <RevealOnScroll>
               <div className="relative rounded-[2.5rem] bg-gradient-to-br from-[#161B22] to-[#0D1117] border border-[#30363D] p-10 md:p-20 text-center overflow-hidden">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
@@ -438,7 +438,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
       </main>
 
       {/* Footer Minimalis */}
-      <footer className="relative z-10 border-t border-[#30363D] pt-8 pb-4 md:pb-6">
+      <footer className="relative z-10 border-t border-[#30363D] pt-6 pb-4 md:pb-6">
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[#8B949E] text-sm text-center md:text-left">
             Dibuat dengan logika, dedikasi, & secangkir kopi. &copy; {new Date().getFullYear()}
