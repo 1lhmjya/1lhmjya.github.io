@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Potong Plano — Cetak Pro Standalone</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <header class="header">
+      <div class="container">
+        <a href="index.html" class="back-link">
+          <i class="fa-solid fa-arrow-left" style="margin-right:6px;"></i>Kembali
+        </a>
+        <div class="header-page-info">
+          <div class="header-page-title">Kalkulator Potong Plano</div>
+          <div class="header-page-desc">Yield optimal, visualisasi SVG, dan kalkulasi waste</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+
+        <div class="cols cols-sidebar" style="align-items:start;">
+          <!-- ══ KIRI: Input + Kebutuhan ══ -->
+          <div class="bento-col">
+            <div class="card">
+              <div class="card-header card-header-green">
+                <div class="card-header-icon card-header-icon-green"><i class="fa-solid fa-ruler-combined"></i></div>
+                <div class="card-header-text">
+                  <div class="card-title">Ukuran Plano</div>
+                  <div class="card-desc">Ukuran kertas plano (cm). Urutan panjang × lebar bebas.</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="form-row form-row-2">
+                  <div class="form-group">
+                    <label class="form-label">Panjang Plano (cm)</label>
+                    <input type="text" id="plano-p" class="form-input" placeholder="100" inputmode="decimal">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Lebar Plano (cm)</label>
+                    <input type="text" id="plano-l" class="form-input" placeholder="65" inputmode="decimal">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Harga per Plano (Rp) — opsional</label>
+                  <input type="text" id="harga-plano" class="form-input" value="" inputmode="numeric" placeholder="0">
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-icon card-header-icon-blue"><i class="fa-solid fa-crop-simple"></i></div>
+                <div class="card-header-text">
+                  <div class="card-title">Ukuran Cetak (Potongan)</div>
+                  <div class="card-desc">Ukuran jadi per lembar (cm). Contoh: A4 = 21 × 29,7. Kalkulator otomatis memilih orientasi terbaik.</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="form-row form-row-2">
+                  <div class="form-group">
+                    <label class="form-label">Panjang Cetak (cm)</label>
+                    <input type="text" id="cetak-p" class="form-input" value="21" inputmode="decimal">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Lebar Cetak (cm)</label>
+                    <input type="text" id="cetak-l" class="form-input" value="29.7" inputmode="decimal">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ══ KEBUTUHAN ══ -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-icon card-header-icon-orange"><i class="fa-solid fa-boxes-stacked"></i></div>
+                <div class="card-header-text">
+                  <div class="card-title">Kebutuhan (Opsional)</div>
+                  <div class="card-desc">Hitung dari jumlah plano yang tersedia, atau dari jumlah lembar cetak yang dibutuhkan.</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="form-row form-row-2">
+                  <div class="form-group">
+                    <label class="form-label">Jumlah Lembar Plano</label>
+                    <input type="text" id="keb-plano" class="form-input" value="" inputmode="numeric" placeholder="0">
+                    <div class="form-hint">→ Hitung total lembar cetak yang didapat</div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Jumlah Lembar (Kostum)</label>
+                    <input type="text" id="keb-cetak" class="form-input" value="" inputmode="numeric" placeholder="0">
+                    <div class="form-hint">→ Hitung jumlah plano yang dibutuhkan</div>
+                  </div>
+                </div>
+                <div id="kebutuhan-result"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══ KANAN: Hasil Potong ══ -->
+          <div class="bento-col">
+            <div class="card">
+              <div class="card-header card-header-green">
+                <div class="card-header-icon card-header-icon-green"><i class="fa-solid fa-chart-bar"></i></div>
+                <div class="card-header-text">
+                  <div class="card-title">Hasil Potong</div>
+                  <div class="card-desc">Yield maksimal per lembar plano, orientasi terbaik, dan estimasi waste.</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="result-panel"></div>
+                <div id="viz-container" style="margin-top:16px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+  </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container" style="display:flex;align-items:center;justify-content:center;gap:10px;">
+      <span>Tools Percetakan Pro — <em>Made With Logic and Math</em></span>
+      <a href="https://1lhmjya.github.io/" target="_blank" rel="noopener" title="GitHub Profile"
+        style="display:inline-flex;align-items:center;color:var(--text-muted);transition:0.2s;"
+        onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"
+          aria-label="GitHub">
+          <path
+            d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.922.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 21.796 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+        </svg>
+      </a>
+    </div>
+  </footer>
+  </div>
+
+  <script>
+    // ════════════════════════════════════════════════
+    //  Potong Plano — porting 1:1 dari plano-calculator.tsx
+    // ════════════════════════════════════════════════
+
+    function formatCurrency(n) {
+      const num = typeof n === 'string' ? parseFloat(n) : n;
+      if (isNaN(num)) return 'Rp 0';
+      return 'Rp ' + new Intl.NumberFormat('id-ID').format(Math.round(num));
+    }
+
+    function fmt(n) { return n % 1 === 0 ? String(n) : n.toFixed(1); }
+
+    function parseDecimal(s) {
+      if (!s || !String(s).trim()) return 0;
+      const n = parseFloat(String(s).trim().replace(',', '.'));
+      return Number.isFinite(n) ? n : 0;
+    }
+
+    function sanitizeDecimalInput(input) {
+      let s = input.replace(/[^\d.,]/g, '');
+      const lastDot = s.lastIndexOf('.');
+      const lastComma = s.lastIndexOf(',');
+      if (lastDot >= 0 && lastComma >= 0) {
+        if (lastDot > lastComma) s = s.replace(/,/g, '');
+        else s = s.replace(/\./g, '');
+      }
+      const sep = s.includes(',') ? ',' : '.';
+      const parts = s.split(sep);
+      if (parts.length > 2) s = parts[0] + sep + parts.slice(1).join('');
+      return s;
+    }
+
+    function yieldInRect(width, height, p, l) {
+      const pK = Math.floor(width / p), pB = Math.floor(height / l), pT = pK * pB;
+      const lK = Math.floor(width / l), lB = Math.floor(height / p), lT = lK * lB;
+      if (pT >= lT) return { total: pT, orientasi: 'portrait', kolom: pK, baris: pB };
+      return { total: lT, orientasi: 'landscape', kolom: lK, baris: lB };
+    }
+
+    function computeYield(planoP, planoL, cetakP, cetakL, hargaPerPlano) {
+      if (planoP <= 0 || planoL <= 0 || cetakP <= 0 || cetakL <= 0) return null;
+      const areaPlanoCm2 = planoP * planoL;
+      const areaSatuCetak = cetakP * cetakL;
+      let bestTotal = 0, bestOrientasi = 'portrait', bestKolom = 0, bestBaris = 0, bestDesc = '', bestZones = [];
+
+      const fp = yieldInRect(planoP, planoL, cetakP, cetakL);
+      const fl = yieldInRect(planoP, planoL, cetakL, cetakP);
+      function tryFull(r, label) {
+        if (r.total > bestTotal) {
+          bestTotal = r.total; bestOrientasi = r.orientasi; bestKolom = r.kolom; bestBaris = r.baris;
+          bestDesc = `${r.kolom}×${r.baris} ${r.orientasi}`;
+          bestZones = [{ x: 0, y: 0, width: planoP, height: planoL, kolom: r.kolom, baris: r.baris, orientasi: r.orientasi }];
+        }
+      }
+      if (fp.total >= fl.total) tryFull(fp); else tryFull(fl);
+      if (fl.total > fp.total) tryFull(fl);
+
+      // Horizontal splits
+      const hSteps = new Set();
+      for (let k = 1; k * cetakP < planoL; k++) hSteps.add(k * cetakP);
+      for (let k = 1; k * cetakL < planoL; k++) hSteps.add(k * cetakL);
+      for (const y of hSteps) {
+        if (y <= 0 || y >= planoL) continue;
+        const top = yieldInRect(planoP, y, cetakP, cetakL);
+        const bot = yieldInRect(planoP, planoL - y, cetakP, cetakL);
+        const total = top.total + bot.total;
+        if (total > bestTotal) {
+          bestTotal = total; bestOrientasi = 'mixed'; bestKolom = top.kolom + bot.kolom; bestBaris = Math.max(top.baris, bot.baris);
+          bestDesc = top.orientasi === bot.orientasi
+            ? `${top.kolom}×${top.baris} + ${bot.kolom}×${bot.baris} ${top.orientasi}`
+            : `${top.total} ${top.orientasi} + ${bot.total} ${bot.orientasi}`;
+          bestZones = [
+            { x: 0, y: 0, width: planoP, height: y, kolom: top.kolom, baris: top.baris, orientasi: top.orientasi },
+            { x: 0, y: y, width: planoP, height: planoL - y, kolom: bot.kolom, baris: bot.baris, orientasi: bot.orientasi },
+          ];
+        }
+      }
+
+      // Vertical splits
+      const vSteps = new Set();
+      for (let k = 1; k * cetakP < planoP; k++) vSteps.add(k * cetakP);
+      for (let k = 1; k * cetakL < planoP; k++) vSteps.add(k * cetakL);
+      for (const x of vSteps) {
+        if (x <= 0 || x >= planoP) continue;
+        const left = yieldInRect(x, planoL, cetakP, cetakL);
+        const right = yieldInRect(planoP - x, planoL, cetakP, cetakL);
+        const total = left.total + right.total;
+        if (total > bestTotal) {
+          bestTotal = total; bestOrientasi = 'mixed'; bestKolom = left.kolom + right.kolom; bestBaris = Math.max(left.baris, right.baris);
+          bestDesc = left.orientasi === right.orientasi
+            ? `${left.kolom}×${left.baris} + ${right.kolom}×${right.baris} ${left.orientasi}`
+            : `${left.total} ${left.orientasi} + ${right.total} ${right.orientasi}`;
+          bestZones = [
+            { x: 0, y: 0, width: x, height: planoL, kolom: left.kolom, baris: left.baris, orientasi: left.orientasi },
+            { x: x, y: 0, width: planoP - x, height: planoL, kolom: right.kolom, baris: right.baris, orientasi: right.orientasi },
+          ];
+        }
+      }
+
+      const areaTerpakai = bestTotal * areaSatuCetak;
+      const wasteCm2 = areaPlanoCm2 - areaTerpakai;
+      const wastePersen = areaPlanoCm2 > 0 ? (wasteCm2 / areaPlanoCm2) * 100 : 0;
+      const biayaPerLembar = bestTotal > 0 ? hargaPerPlano / bestTotal : 0;
+      return { yield: bestTotal, orientasi: bestOrientasi, kolom: bestKolom, baris: bestBaris, layoutDesc: bestDesc, zones: bestZones, areaPlanoCm2, areaTerpakaiCm2: areaTerpakai, wasteCm2, wastePersen, biayaPerLembar };
+    }
+
+    const COLORS = {
+      portrait: { fill: '#3b82f6', stroke: '#1d4ed8' },
+      landscape: { fill: '#10b981', stroke: '#059669' },
+      plano: '#1e293b', planoStroke: '#475569',
+      waste: '#0f172a', wasteStroke: '#334155',
+      dimLine: '#ef4444', dimText: '#f1f5f9',
+    };
+
+    function renderSVG(planoP, planoL, cetakP, cetakL, zones, wasteCm2, wastePersen) {
+      const pad = 10;
+      const vbW = planoP + pad + 2, vbH = planoL + pad + 2;
+      let svg = `<svg viewBox="-1 -1 ${vbW} ${vbH}" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;max-height:380px;">`;
+      svg += `<rect x="0" y="0" width="${planoP}" height="${planoL}" fill="${COLORS.plano}" stroke="${COLORS.planoStroke}" stroke-width="0.35"/>`;
+
+      for (const zone of zones) {
+        const c = COLORS[zone.orientasi];
+        const pieceW = zone.orientasi === 'portrait' ? cetakP : cetakL;
+        const pieceH = zone.orientasi === 'portrait' ? cetakL : cetakP;
+        const usedW = zone.kolom * pieceW, usedH = zone.baris * pieceH;
+        const wasteW = Math.max(0, zone.width - usedW), wasteH = Math.max(0, zone.height - usedH);
+        const gap = 0.12;
+
+        for (let row = 0; row < zone.baris; row++) {
+          for (let col = 0; col < zone.kolom; col++) {
+            const x = zone.x + col * pieceW + gap, y = zone.y + row * pieceH + gap;
+            svg += `<rect x="${x}" y="${y}" width="${pieceW - 2 * gap}" height="${pieceH - 2 * gap}" fill="${c.fill}" stroke="${c.stroke}" stroke-width="0.35" rx="0.3"/>`;
+            const fs = Math.max(2.2, Math.min(3.8, pieceW / 3, pieceH / 3));
+            const label = zone.orientasi === 'portrait' ? `${fmt(cetakP)}×${fmt(cetakL)}` : `${fmt(cetakL)}×${fmt(cetakP)}`;
+            svg += `<text x="${zone.x + col * pieceW + pieceW / 2}" y="${zone.y + row * pieceH + pieceH / 2}" text-anchor="middle" dominant-baseline="middle" font-size="${fs}" fill="${COLORS.dimText}" font-weight="600">${label}</text>`;
+          }
+        }
+
+        if (wasteW > 0.2) {
+          svg += `<rect x="${zone.x + usedW}" y="${zone.y}" width="${wasteW}" height="${zone.height}" fill="${COLORS.waste}" stroke="${COLORS.wasteStroke}" stroke-width="0.2"/>`;
+          svg += `<text x="${zone.x + usedW + wasteW / 2}" y="${zone.y + zone.height / 2}" text-anchor="middle" dominant-baseline="middle" font-size="${Math.max(2, Math.min(3.5, wasteW / 1.5))}" fill="#94a3b8" font-weight="600">${fmt(wasteW)}</text>`;
+        }
+        if (wasteH > 0.2) {
+          svg += `<rect x="${zone.x}" y="${zone.y + usedH}" width="${zone.width}" height="${wasteH}" fill="${COLORS.waste}" stroke="${COLORS.wasteStroke}" stroke-width="0.2"/>`;
+          svg += `<text x="${zone.x + zone.width / 2}" y="${zone.y + usedH + wasteH / 2}" text-anchor="middle" dominant-baseline="middle" font-size="${Math.max(2, Math.min(3.5, wasteH / 1.5))}" fill="#94a3b8" font-weight="600">${fmt(wasteH)}</text>`;
+        }
+      }
+
+      // Split lines
+      if (zones.length > 1) {
+        for (let i = 0; i < zones.length - 1; i++) {
+          const z = zones[i], nz = zones[i + 1];
+          const isH = Math.abs(nz.y - (z.y + z.height)) < 0.01;
+          if (isH) svg += `<line x1="0" y1="${z.y + z.height}" x2="${planoP}" y2="${z.y + z.height}" stroke="#94a3b8" stroke-width="0.3" stroke-dasharray="0.6 0.5"/>`;
+          else svg += `<line x1="${z.x + z.width}" y1="0" x2="${z.x + z.width}" y2="${planoL}" stroke="#94a3b8" stroke-width="0.3" stroke-dasharray="0.6 0.5"/>`;
+        }
+      }
+
+      // Dimension lines
+      svg += `<line x1="0" y1="${planoL + 2}" x2="${planoP}" y2="${planoL + 2}" stroke="${COLORS.dimLine}" stroke-width="0.5"/>`;
+      svg += `<text x="${planoP / 2}" y="${planoL + 5}" text-anchor="middle" font-size="3.8" fill="${COLORS.dimLine}" font-weight="700">${fmt(planoP)}</text>`;
+      svg += `<line x1="${planoP + 2}" y1="0" x2="${planoP + 2}" y2="${planoL}" stroke="${COLORS.dimLine}" stroke-width="0.5"/>`;
+      svg += `<text x="${planoP + 5}" y="${planoL / 2}" text-anchor="middle" font-size="3.8" fill="${COLORS.dimLine}" font-weight="700" transform="rotate(-90 ${planoP + 5} ${planoL / 2})">${fmt(planoL)}</text>`;
+      svg += '</svg>';
+
+      svg += `<div class="viz-legend">
+    <span style="font-weight:600;color:var(--text-secondary)">Legenda:</span>
+    <span><span class="viz-legend-dot" style="background:${COLORS.portrait.fill};border:1px solid ${COLORS.portrait.stroke}"></span> Portrait (${fmt(cetakP)}×${fmt(cetakL)} cm)</span>
+    <span><span class="viz-legend-dot" style="background:${COLORS.landscape.fill};border:1px solid ${COLORS.landscape.stroke}"></span> Landscape (${fmt(cetakL)}×${fmt(cetakP)} cm)</span>
+    <span style="color:var(--text-muted);margin-left:auto">Sisa: ${wasteCm2.toFixed(0)} cm² (${wastePersen.toFixed(1)}%)</span>
+  </div>`;
+      return svg;
+    }
+
+    // ── Setup inputs ──
+    const ids = ['plano-p', 'plano-l', 'cetak-p', 'cetak-l'];
+    ids.forEach(id => {
+      document.getElementById(id).addEventListener('input', e => {
+        e.target.value = sanitizeDecimalInput(e.target.value);
+        calculate();
+      });
+    });
+
+    ['keb-plano', 'keb-cetak'].forEach(id => {
+      document.getElementById(id).addEventListener('input', e => {
+        e.target.value = e.target.value.replace(/\D/g, '');
+        calculate();
+      });
+    });
+
+    document.getElementById('harga-plano').addEventListener('input', e => {
+      const raw = e.target.value.replace(/\D/g, '');
+      e.target.value = raw ? new Intl.NumberFormat('id-ID').format(parseInt(raw)) : '';
+      calculate();
+    });
+
+    function calculate() {
+      const planoP = parseDecimal(document.getElementById('plano-p').value);
+      const planoL = parseDecimal(document.getElementById('plano-l').value);
+      const cetakP = parseDecimal(document.getElementById('cetak-p').value);
+      const cetakL = parseDecimal(document.getElementById('cetak-l').value);
+      const hargaRaw = document.getElementById('harga-plano').value.replace(/\D/g, '');
+      const hargaPerPlano = hargaRaw ? parseInt(hargaRaw) : 0;
+
+      const resultPanel = document.getElementById('result-panel');
+      const vizContainer = document.getElementById('viz-container');
+
+      if (planoP <= 0 || planoL <= 0 || cetakP <= 0 || cetakL <= 0) {
+        resultPanel.innerHTML = '<p style="color:var(--text-muted);font-size:13px;">Isi ukuran plano dan ukuran cetak (semua &gt; 0) untuk melihat hasil.</p>';
+        vizContainer.innerHTML = '';
+        return;
+      }
+
+      const r = computeYield(planoP, planoL, cetakP, cetakL, hargaPerPlano);
+      if (!r) { resultPanel.innerHTML = ''; vizContainer.innerHTML = ''; return; }
+
+      const fz = r.zones[0];
+      const lebarDiPlano = fz?.orientasi === 'landscape' ? cetakL : cetakP;
+      const tinggiDiPlano = fz?.orientasi === 'landscape' ? cetakP : cetakL;
+
+      let html = '<div class="result-panel">';
+      html += `<div class="result-row"><span class="result-label">Yield per plano</span><span class="result-value result-value-lg result-value-green">${r.yield} lembar</span></div>`;
+      html += `<div class="result-row"><span class="result-label">Ukuran per lembar di plano</span><span class="result-value">${fmt(lebarDiPlano)}×${fmt(tinggiDiPlano)} cm</span></div>`;
+      html += `<div class="result-row"><span class="result-label">Orientasi</span><span class="result-value">${r.orientasi === 'mixed' ? 'Campuran' : r.orientasi}</span></div>`;
+      html += `<div class="result-row"><span class="result-label">Layout</span><span class="result-value">${r.layoutDesc}</span></div>`;
+      html += `<div class="result-row"><span class="result-label">Sisa (waste)</span><span class="result-value">${r.wasteCm2.toFixed(0)} cm² (${r.wastePersen.toFixed(1)}%)</span></div>`;
+      if (hargaPerPlano > 0 && r.yield > 0) {
+        html += `<hr class="result-divider">`;
+        html += `<div class="result-row"><span class="result-label">Biaya per lembar cetak</span><span class="result-value result-value-green">${formatCurrency(r.biayaPerLembar)}</span></div>`;
+      }
+      html += '</div>';
+      resultPanel.innerHTML = html;
+
+      // ── Kebutuhan ──
+      const kebPlano = parseInt(document.getElementById('keb-plano').value) || 0;
+      const kebCetak = parseInt(document.getElementById('keb-cetak').value) || 0;
+      const kebResultEl = document.getElementById('kebutuhan-result');
+      let kHtml = '';
+      if (kebPlano > 0 || kebCetak > 0) {
+        kHtml = '<div class="result-panel" style="margin-top:12px;">';
+        if (kebPlano > 0) {
+          const totalCetak = kebPlano * r.yield;
+          kHtml += `<div class="result-row"><span class="result-label">Total lembar cetak (${kebPlano} plano × ${r.yield})</span><span class="result-value result-value-green">${totalCetak.toLocaleString('id-ID')} lembar</span></div>`;
+          if (hargaPerPlano > 0) {
+            const totalBiaya = kebPlano * hargaPerPlano;
+            kHtml += `<div class="result-row"><span class="result-label">Total biaya bahan (${kebPlano} plano)</span><span class="result-value result-value-green">${formatCurrency(totalBiaya)}</span></div>`;
+          }
+        }
+        if (kebCetak > 0) {
+          const planoButuh = Math.ceil(kebCetak / r.yield);
+          kHtml += `<div class="result-row"><span class="result-label">Plano dibutuhkan (${kebCetak.toLocaleString('id-ID')} lembar cetak)</span><span class="result-value">${planoButuh.toLocaleString('id-ID')} lembar plano</span></div>`;
+          if (hargaPerPlano > 0) {
+            const totalBiaya = planoButuh * hargaPerPlano;
+            kHtml += `<div class="result-row"><span class="result-label">Total biaya bahan (${planoButuh} plano)</span><span class="result-value result-value-green">${formatCurrency(totalBiaya)}</span></div>`;
+          }
+        }
+        kHtml += '</div>';
+      }
+      kebResultEl.innerHTML = kHtml;
+
+      if (r.yield > 0 && r.zones.length > 0) {
+        vizContainer.innerHTML = '<div class="viz-container">' + renderSVG(planoP, planoL, cetakP, cetakL, r.zones, r.wasteCm2, r.wastePersen) + '</div>';
+      } else {
+        vizContainer.innerHTML = '';
+      }
+    }
+
+    calculate();
+  </script>
+</body>
+
+</html>

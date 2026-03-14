@@ -10,7 +10,10 @@ import {
   MessageCircle,
   CheckCircle2,
   X,
-  Bot
+  Bot,
+  Calculator,
+  Scissors,
+  FileText
 } from 'lucide-react';
 
 // --- Komponen Custom untuk Animasi Scroll (Reveal) ---
@@ -210,6 +213,33 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
     }
   ];
 
+  const miniTools = [
+    {
+      title: "Kalkulator Biaya",
+      desc: "Hitung & bandingkan biaya cetak Offset vs Digital, termasuk kalkulasi finishing.",
+      icon: <Calculator className="w-6 h-6 text-[#3b82f6]" />,
+      url: "/tools/biaya.html"
+    },
+    {
+      title: "Potong Plano",
+      desc: "Hitung yield & visualisasi potongan kertas plano ke ukuran cetak dengan auto-rotate.",
+      icon: <Scissors className="w-6 h-6 text-[#10b981]" />,
+      url: "/tools/plano.html"
+    },
+    {
+      title: "Stiker Cutting",
+      desc: "Hitung stiker per lembar dengan algoritma grid nesting, gap pisau, dan aturan A3+.",
+      icon: <Layers className="w-6 h-6 text-[#f59e0b]" />,
+      url: "/tools/stiker.html"
+    },
+    {
+      title: "Nota NCR",
+      desc: "Kalkulator komprehensif nota NCR dengan konversi ke RIM, ukuran potong F4, dan ply.",
+      icon: <FileText className="w-6 h-6 text-[#8b5cf6]" />,
+      url: "/tools/ncr.html"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-[#0D1117] text-[#C9D1D9] font-sans overflow-x-hidden relative selection:bg-[#00877b]/35 selection:text-[#F0F6FC]">
       
@@ -402,6 +432,35 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
                       )}
                     </div>
                   </article>
+                </RevealOnScroll>
+              ))}
+            </div>
+          </section>
+
+          {/* SECTION 4.5: MINI TOOLS */}
+          <section id="tools" className="py-20 border-t border-[#30363D]">
+            <RevealOnScroll>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#F0F6FC] mb-5 text-center">Mini Tools Percetakan</h2>
+            </RevealOnScroll>
+            <RevealOnScroll delay={80}>
+              <p className="text-[#8B949E] text-center max-w-2xl mx-auto mb-14">
+                Kumpulan kalkulator dan alat bantu interaktif untuk menghitung kebutuhan cetak, kertas, dan estimasi biaya secara akurat.
+              </p>
+            </RevealOnScroll>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {miniTools.map((tool, index) => (
+                <RevealOnScroll key={tool.title} delay={index * 120}>
+                  <a href={tool.url} className="block h-full rounded-3xl bg-[#161B22]/80 border border-[#30363D] p-7 hover:bg-[#21262D] transition-all duration-300 group">
+                    <div className="mb-6 p-4 rounded-2xl bg-[#0D1117]/70 inline-block shadow-inner shadow-[#30363D] group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500">
+                      {tool.icon}
+                    </div>
+                    <h3 className="text-[#F0F6FC] text-xl font-semibold mb-3 flex items-center gap-2">
+                      {tool.title}
+                      <ArrowRight className="w-4 h-4 text-[#8B949E] group-hover:text-[#F0F6FC] group-hover:translate-x-1 transition-all" />
+                    </h3>
+                    <p className="text-[#8B949E] text-sm leading-relaxed">{tool.desc}</p>
+                  </a>
                 </RevealOnScroll>
               ))}
             </div>
