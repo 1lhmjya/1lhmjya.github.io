@@ -50,7 +50,7 @@
                 <div class="form-group">
                   <label class="form-label">Proses Cutting (aturan A3+)</label>
                   <select id="cutting-mode" class="form-select">
-                    <option value="cutting">Dengan cutting — area aman 31×46 cm</option>
+                    <option value="cutting">Dengan cutting — area aman 30×46 cm</option>
                     <option value="no-cutting">Tanpa cutting — area maksimal 32×48 cm</option>
                   </select>
                   <div class="form-hint">Hanya berlaku untuk lembar A3+ (48.5×32.5). Bahan ukuran lain dipakai penuh.
@@ -223,23 +223,10 @@
     // ════════════════════════════════════════════════
 
     // ── Tab switcher for Hex vs Grid visualization ──
+    let explicitVizTab = null;
     function switchVizTab(tab) {
-      const hexDiv = document.getElementById('viz-hex');
-      const gridDiv = document.getElementById('viz-grid');
-      const hexBtn = document.getElementById('tab-hex');
-      const gridBtn = document.getElementById('tab-grid');
-      if (!hexDiv || !gridDiv) return;
-
-      const isHex = tab === 'hex';
-      hexDiv.style.display = isHex ? 'block' : 'none';
-      gridDiv.style.display = isHex ? 'none' : 'block';
-
-      hexBtn.style.background = isHex ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.04)';
-      hexBtn.style.borderColor = isHex ? '#10b981' : 'rgba(255,255,255,0.1)';
-      hexBtn.style.color = isHex ? 'var(--accent-green)' : 'var(--text-secondary)';
-      gridBtn.style.background = isHex ? 'rgba(255,255,255,0.04)' : 'rgba(59,130,246,0.15)';
-      gridBtn.style.borderColor = isHex ? 'rgba(255,255,255,0.1)' : '#3b82f6';
-      gridBtn.style.color = isHex ? 'var(--text-secondary)' : 'var(--accent-blue)';
+      explicitVizTab = tab;
+      calculate(true);
     }
 
     function formatCurrency(n) {
@@ -277,7 +264,7 @@
 
     // ── A3+ Constants & Functions ──
     const A3P = 48.5, A3L = 32.5, TOL = 0.2;
-    const EFF_CUT_P = 46, EFF_CUT_L = 31;
+    const EFF_CUT_P = 46, EFF_CUT_L = 30;
     const EFF_NO_P = 48, EFF_NO_L = 32;
     const FULL_P = A3P, FULL_L = A3L;
 
@@ -545,7 +532,10 @@
       });
     });
 
-    function calculate() {
+    function calculate(fromSwitch = false) {
+      if (fromSwitch !== true) {
+        explicitVizTab = null;
+      }
       const bahanP = parseDecimal(document.getElementById('bahan-p').value);
       const bahanL = parseDecimal(document.getElementById('bahan-l').value);
       const withCutting = document.getElementById('cutting-mode').value === 'cutting';
@@ -561,13 +551,27 @@
 
       // For bulat/oval: try both grid and hex, pick the best
       const gridResult = computeStikerYield(efektifP, efektifL, stikerP, stikerL, gapCm);
-      let result = gridResult;
+      let hexResult2 = null;
       if (bentuk === 'bulat' || bentuk === 'oval') {
-        const hexResult = computeHexYield(efektifP, efektifL, stikerP, stikerL, gapCm);
-        if (hexResult && hexResult.total > (gridResult?.total ?? 0)) {
-          result = hexResult;
-        }
+        hexResult2 = computeHexYield(efektifP, efektifL, stikerP, stikerL, gapCm);
       }
+      
+      const showTabs = (bentuk === 'bulat' || bentuk === 'oval') && gridResult && gridResult.total > 0 && hexResult2;
+      let activeHex = false;
+      
+      if (showTabs) {
+        if (explicitVizTab === 'hex') {
+          activeHex = true;
+        } else if (explicitVizTab === 'grid') {
+          activeHex = false;
+        } else {
+          activeHex = hexResult2.total >= gridResult.total;
+        }
+      } else if (hexResult2 && hexResult2.total > (gridResult?.total ?? 0)) {
+        activeHex = true;
+      }
+      
+      let result = activeHex ? hexResult2 : gridResult;
 
       const resultPanel = document.getElementById('result-panel');
       const vizContainer = document.getElementById('viz-container');
@@ -643,14 +647,10 @@
         : '';
 
       // Show comparison tabs only for bulat/oval when hexResult exists and differs
-      const showTabs = (bentuk === 'bulat' || bentuk === 'oval') && gridResult && gridResult.total > 0;
-      const hexResult2 = showTabs ? computeHexYield(efektifP, efektifL, stikerP, stikerL, gapCm) : null;
-      const bestIsHex = hexResult2 && hexResult2.total >= gridResult.total ? 'hex' : 'grid';
 
       if (showTabs) {
         const hexLabel = `${hexResult2.rowData.length} baris zigzag = ${hexResult2.total} pcs`;
         const gridLabel = `${gridResult.kolom}×${gridResult.baris} = ${gridResult.total} pcs`;
-        const activeHex = bestIsHex === 'hex';
 
         vizContainer.innerHTML = `<div class="viz-container">
       <!-- Tab buttons -->
