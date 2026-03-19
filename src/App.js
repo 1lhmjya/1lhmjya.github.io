@@ -13,7 +13,13 @@ import {
   Bot,
   Calculator,
   Scissors,
-  FileText
+  FileText,
+  PenTool,
+  Calendar,
+  Clock,
+  ChevronRight,
+  Hash,
+  Eye
 } from 'lucide-react';
 
 // --- Komponen Custom untuk Animasi Scroll (Reveal) ---
@@ -240,6 +246,65 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
     }
   ];
 
+  // --- Data Blog/Tulisan ---
+  const blogPosts = [
+    {
+      id: 1,
+      title: "Mengoptimasi Yield Kertas dengan Algoritma Nesting",
+      excerpt: "Bagaimana saya mengurangi waste kertas hingga 15% menggunakan pendekatan 2D bin packing yang dimodifikasi untuk workflow percetakan.",
+      date: "15 Jan 2025",
+      readTime: "6 menit",
+      tags: ["Algoritma", "Optimization", "Printing"],
+      views: 234
+    },
+    {
+      id: 2,
+      title: "Dari Error Merah ke Solusi: Mindset Problem-Solving",
+      excerpt: "Refleksi tentang bagaimana menghadapi sistem yang 'rusak total' dan mengubahnya menjadi arsitektur yang lebih robust.",
+      date: "3 Jan 2025",
+      readTime: "4 menit",
+      tags: ["Mindset", "Debugging", "Architecture"],
+      views: 189
+    },
+    {
+      id: 3,
+      title: "Kenapa Saya Membuat Tools Khusus untuk Industri Percetakan",
+      excerpt: "Proses identifikasi pain points yang sering diabaikan dan mengubahnya menjadi kalkulator yang menghemat waktu 30 menit per order.",
+      date: "28 Des 2024",
+      readTime: "5 menit",
+      tags: ["Tools", "Workflow", "UX"],
+      views: 312
+    },
+    {
+      id: 4,
+      title: "Kompleksitas yang Berguna vs Kompleksitas yang Menyusahkan",
+      excerpt: "Membedah perbedaan antara sistem yang kompleks karena memang harus kompleks, versus yang kompleks karena kurangnya pemikiran desain.",
+      date: "15 Des 2024",
+      readTime: "7 menit",
+      tags: ["System Design", "Complexity", "Philosophy"],
+      views: 156
+    }
+  ];
+
+  // --- Navigasi Sidebar Items ---
+  const navItems = [
+    { id: 'about', label: 'Tentang', icon: <Layers className="w-5 h-5" /> },
+    { id: 'services', label: 'Layanan', icon: <Lightbulb className="w-5 h-5" /> },
+    { id: 'projects', label: 'Proyek', icon: <Sparkles className="w-5 h-5" /> },
+    { id: 'tools', label: 'Tools', icon: <Calculator className="w-5 h-5" /> },
+    { id: 'blog', label: 'Tulisan', icon: <PenTool className="w-5 h-5" /> },
+  ];
+
+  const [activeSection, setActiveSection] = useState('about');
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setActiveSection(sectionId);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#0D1117] text-[#C9D1D9] font-sans overflow-x-hidden relative selection:bg-[#00877b]/35 selection:text-[#F0F6FC]">
       
@@ -247,276 +312,426 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
       <div 
         className="fixed top-0 left-0 w-full h-full pointer-events-none z-0 transition-transform duration-1000 ease-out"
         style={{
-          background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(46, 160, 67, 0.14) 0%, rgba(0,0,0,0) 40%)`
+          background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(0, 135, 123, 0.12) 0%, rgba(0,0,0,0) 45%)`
         }}
       />
       
-      <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-[#161B22]/75 blur-[120px] z-0 mix-blend-screen pointer-events-none" />
-      <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-[#00877b]/15 blur-[120px] z-0 mix-blend-screen pointer-events-none" />
+      {/* Abstract Shapes Background */}
+      <div className="fixed top-[10%] right-[5%] w-[300px] h-[300px] rounded-full bg-[#00877b]/8 blur-[100px] z-0 pointer-events-none" />
+      <div className="fixed bottom-[20%] left-[2%] w-[250px] h-[250px] rounded-full bg-[#161B22]/90 blur-[80px] z-0 pointer-events-none" />
+      <div className="fixed top-[40%] left-[30%] w-[150px] h-[150px] rounded-full border border-[#00877b]/20 z-0 pointer-events-none rotate-45" />
 
-      {/* Navbar Simple */}
-      <nav
-        className={`fixed top-0 w-full z-40 px-6 md:px-12 backdrop-blur-xl transition-all duration-300 ${
-          isScrolled
-            ? 'py-3.5 bg-[#0D1117]/95 border-b border-[#30363D] shadow-[0_8px_30px_rgba(1,4,9,0.45)]'
-            : 'py-4 bg-[#0D1117]/55 border-b border-[#30363D]/60'
-        }`}
-      >
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <span className="font-semibold text-[#F0F6FC] tracking-wide text-lg">
-            Profile<span className="text-[#00877b]">.</span>
-          </span>
-          <span className="font-semibold text-[#F0F6FC] tracking-wide text-lg">
-            Ilham <span className="text-[#00877b]">Jaya</span>
-          </span>
-        </div>
-      </nav>
-
-      <main className="relative z-10 px-6 md:px-12 pt-24 md:pt-28">
-        <div className="max-w-5xl mx-auto">
-
-          {/* SECTION 1: HERO */}
-          <section className="min-h-[82vh] flex flex-col justify-center pt-6">
-            <RevealOnScroll>
-              <div className="mb-8 flex items-center gap-4">
+      {/* LAYOUT: Sidebar + Main Content */}
+      <div className="relative z-10 flex min-h-screen">
+        
+        {/* SIDEBAR NAVIGATION */}
+        <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-[280px] bg-[#0D1117]/95 backdrop-blur-xl border-r border-[#30363D]/80 z-40">
+          {/* Profile Header Sidebar */}
+          <div className="p-8 border-b border-[#30363D]/60">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="relative">
                 <img
                   src="/profil.png"
-                  alt="Foto profil Ilham Jaya"
-                  className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border border-[#30363D] shadow-[0_0_30px_rgba(0,135,123,0.15)]"
+                  alt="Foto profil"
+                  className="w-14 h-14 rounded-2xl object-cover border border-[#30363D] shadow-[0_0_20px_rgba(0,135,123,0.15)]"
                 />
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#161B22]/70 border border-[#30363D] backdrop-blur-sm text-sm text-[#8B949E]">
+                <span className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#00877b] rounded-full border-2 border-[#0D1117]"></span>
+              </div>
+              <div>
+                <h3 className="font-semibold text-[#F0F6FC]">Ilham Jaya</h3>
+                <p className="text-xs text-[#8B949E]">Full Stack Engineer</p>
+              </div>
+            </div>
+            <p className="text-sm text-[#8B949E] leading-relaxed">
+              Membereskan hal rumit, membuatnya jadi simpel.
+            </p>
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="flex-1 p-4 space-y-2">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 text-left group ${
+                  activeSection === item.id 
+                    ? 'bg-[#00877b]/15 text-[#00877b] border border-[#00877b]/30' 
+                    : 'text-[#8B949E] hover:bg-[#161B22] hover:text-[#C9D1D9] border border-transparent'
+                }`}
+              >
+                <span className={`transition-transform duration-300 ${activeSection === item.id ? 'scale-110' : 'group-hover:scale-105'}`}>
+                  {item.icon}
+                </span>
+                <span className="font-medium">{item.label}</span>
+                {activeSection === item.id && (
+                  <ChevronRight className="w-4 h-4 ml-auto" />
+                )}
+              </button>
+            ))}
+          </nav>
+
+          {/* Sidebar Footer */}
+          <div className="p-6 border-t border-[#30363D]/60">
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="w-full flex items-center justify-center gap-2 bg-[#00877b] text-[#F0F6FC] px-5 py-3 rounded-xl font-medium hover:bg-[#00877b]/90 transition-all duration-300 shadow-[0_0_30px_rgba(0,135,123,0.25)]"
+            >
+              <Bot className="w-4 h-4" />
+              AI Copilot
+            </button>
+            
+            <div className="flex justify-center gap-4 mt-4">
+              <a
+                href="https://github.com/1lhmjya"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-lg bg-[#161B22] border border-[#30363D] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#00877b]/50 transition-all"
+              >
+                <Github className="w-4 h-4" />
+              </a>
+              <a
+                href="https://wa.me/6285242660003"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-lg bg-[#161B22] border border-[#30363D] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#00877b]/50 transition-all"
+              >
+                <MessageCircle className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        </aside>
+
+        {/* MOBILE NAVBAR */}
+        <nav className={`lg:hidden fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-all duration-300 ${
+          isScrolled ? 'bg-[#0D1117]/95 border-b border-[#30363D]' : 'bg-[#0D1117]/70'
+        }`}>
+          <div className="flex items-center justify-between px-5 py-4">
+            <span className="font-semibold text-[#F0F6FC] text-lg">
+              Ilham<span className="text-[#00877b]">.</span>
+            </span>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="p-2.5 rounded-lg bg-[#00877b]/20 text-[#00877b]"
+              >
+                <Bot className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        {/* MAIN CONTENT AREA */}
+        <main className="flex-1 lg:ml-[280px] px-5 md:px-10 lg:px-16 pt-20 lg:pt-12 pb-12">
+          <div className="max-w-4xl mx-auto">
+
+            {/* SECTION 1: HERO / ABOUT */}
+            <section id="about" className="min-h-[90vh] flex flex-col justify-center py-12 lg:py-20">
+              <RevealOnScroll>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#161B22]/80 border border-[#30363D] w-fit mb-8">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00877b] opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00877b]"></span>
                   </span>
-                  Tersedia untuk kolaborasi
+                  <span className="text-sm text-[#8B949E]">Tersedia untuk kolaborasi</span>
                 </div>
-              </div>
-            </RevealOnScroll>
-            
-            <RevealOnScroll delay={100}>
-              <h1 className="text-5xl md:text-7xl font-bold text-[#F0F6FC] tracking-tight leading-[1.1] mb-8">
-                Membereskan hal rumit, <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00877b] to-[#00877b]">
-                  membuatnya jadi simpel.
-                </span>
-              </h1>
-            </RevealOnScroll>
+              </RevealOnScroll>
+              
+              <RevealOnScroll delay={100}>
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#F0F6FC] tracking-tight leading-[1.1] mb-8">
+                  Membereskan hal{" "}
+                  <span className="relative inline-block">
+                    <span className="text-[#00877b]">rumit</span>
+                    <svg className="absolute -bottom-2 left-0 w-full h-3 text-[#00877b]/30" viewBox="0 0 200 12" fill="none">
+                      <path d="M0 8C50 4 150 4 200 8" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/>
+                    </svg>
+                  </span>
+                  ,<br />
+                  <span className="text-[#8B949E]">membuatnya jadi</span>{" "}
+                  <span className="text-[#00877b]">simpel.</span>
+                </h1>
+              </RevealOnScroll>
 
-            <RevealOnScroll delay={200}>
-              <p className="text-lg md:text-xl text-[#8B949E] max-w-2xl leading-relaxed mb-12">
-                Saya merancang dan membangun sistem digital. Tidak cuma asal jalan, tapi dipikirkan dengan sangat logis dan detail. Karena pada akhirnya, Anda hanya ingin tahu satu hal: <span className="text-[#F0F6FC] font-medium">semuanya bekerja dengan sempurna.</span>
-              </p>
-            </RevealOnScroll>
+              <RevealOnScroll delay={200}>
+                <p className="text-lg md:text-xl text-[#8B949E] max-w-2xl leading-relaxed mb-12">
+                  Saya merancang dan membangun sistem digital. Tidak cuma asal jalan, tapi dipikirkan dengan sangat logis dan detail. Karena pada akhirnya, Anda hanya ingin tahu satu hal: <span className="text-[#F0F6FC] font-medium">semuanya bekerja dengan sempurna.</span>
+                </p>
+              </RevealOnScroll>
 
-            <RevealOnScroll delay={300}>
-              <div className="flex flex-wrap items-center gap-6">
-                <button 
-                  onClick={() => setIsModalOpen(true)}
-                  className="group flex items-center gap-3 bg-[#00877b] text-[#F0F6FC] px-7 py-4 rounded-full font-medium hover:bg-[#00877b] transition-all duration-300 shadow-[0_0_40px_rgba(0,135,123,0.22)] hover:shadow-[0_0_50px_rgba(0,135,123,0.35)] transform hover:-translate-y-1"
-                >
-                  <Bot className="w-5 h-5" />
-                  Kenali saya lebih jauh
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            </RevealOnScroll>
-          </section>
-
-          {/* SECTION 2: MINDSET */}
-          <section className="py-20">
-            <RevealOnScroll>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#F0F6FC] mb-12">Cara Kerja.</h2>
-            </RevealOnScroll>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {mindsets.map((item, index) => (
-                <RevealOnScroll key={index} delay={index * 150}>
-                  <div className="group relative p-8 rounded-3xl bg-[#161B22]/80 border border-[#30363D] hover:bg-[#21262D] transition-all duration-500 overflow-hidden h-full">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#00877b]/15 rounded-full blur-[50px] group-hover:bg-[#00877b]/25 transition-all duration-500" />
-                    
-                    <div className="relative z-10">
-                      <div className="mb-6 p-4 rounded-2xl bg-[#0D1117]/70 inline-block shadow-inner shadow-[#30363D] group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500">
+              {/* Mindset Cards - Horizontal Layout */}
+              <RevealOnScroll delay={300}>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {mindsets.map((item, index) => (
+                    <div 
+                      key={index} 
+                      className="group p-5 rounded-2xl bg-[#161B22]/60 border border-[#30363D] hover:bg-[#161B22] hover:border-[#00877b]/40 transition-all duration-300"
+                    >
+                      <div className="mb-3 p-2.5 rounded-xl bg-[#0D1117]/70 inline-block">
                         {item.icon}
                       </div>
-                      <h3 className="text-xl font-semibold text-[#F0F6FC] mb-3">{item.title}</h3>
-                      <p className="text-[#8B949E] leading-relaxed text-sm md:text-base">
-                        {item.desc}
+                      <h3 className="text-sm font-semibold text-[#F0F6FC] mb-1">{item.title}</h3>
+                      <p className="text-xs text-[#8B949E] leading-relaxed">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </RevealOnScroll>
+            </section>
+
+            {/* SECTION 2: LAYANAN */}
+            <section id="services" className="py-16 border-t border-[#30363D]/60">
+              <RevealOnScroll>
+                <div className="flex items-center gap-3 mb-10">
+                  <div className="p-2.5 rounded-xl bg-[#00877b]/20">
+                    <Lightbulb className="w-5 h-5 text-[#00877b]" />
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#F0F6FC]">Fokus Layanan</h2>
+                </div>
+              </RevealOnScroll>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  { icon: <Layers className="w-5 h-5" />, text: "Membangun arsitektur sistem yang tahan banting dan siap scale-up." },
+                  { icon: <Compass className="w-5 h-5" />, text: "Menerjemahkan ide bisnis kompleks menjadi UI/UX yang mudah dimengerti." },
+                  { icon: <CheckCircle2 className="w-5 h-5" />, text: "Menulis kode yang bersih, logis, dan mudah di-maintenance tim Anda." },
+                  { icon: <Sparkles className="w-5 h-5" />, text: "Memecahkan 'masalah mustahil' yang ditinggalkan developer sebelumnya." }
+                ].map((item, i) => (
+                  <RevealOnScroll key={i} delay={i * 100}>
+                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-[#161B22]/40 border border-[#30363D]/60 hover:bg-[#161B22]/80 hover:border-[#00877b]/30 transition-all duration-300 group">
+                      <div className="p-2.5 rounded-xl bg-[#00877b]/10 text-[#00877b] group-hover:bg-[#00877b]/20 transition-colors">
+                        {item.icon}
+                      </div>
+                      <p className="text-[#C9D1D9] leading-relaxed pt-1">{item.text}</p>
+                    </div>
+                  </RevealOnScroll>
+                ))}
+              </div>
+            </section>
+
+            {/* SECTION 3: PROYEK PILIHAN */}
+            <section id="projects" className="py-16 border-t border-[#30363D]/60">
+              <RevealOnScroll>
+                <div className="flex items-center gap-3 mb-10">
+                  <div className="p-2.5 rounded-xl bg-[#00877b]/20">
+                    <Sparkles className="w-5 h-5 text-[#00877b]" />
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#F0F6FC]">Proyek Pilihan</h2>
+                </div>
+              </RevealOnScroll>
+
+              <div className="space-y-4">
+                {featuredProjects.map((project, index) => (
+                  <RevealOnScroll key={project.title} delay={index * 100}>
+                    <article className="group p-6 rounded-2xl bg-[#161B22]/40 border border-[#30363D]/60 hover:bg-[#161B22]/80 hover:border-[#00877b]/30 transition-all duration-300">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <h3 className="text-xl font-semibold text-[#F0F6FC] group-hover:text-[#00877b] transition-colors">{project.title}</h3>
+                        <div className="flex gap-2">
+                          {project.stack.map((tech) => (
+                            <span
+                              key={tech}
+                              className="px-3 py-1 rounded-full text-xs bg-[#0D1117] border border-[#30363D] text-[#8B949E]"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-[#8B949E] text-sm leading-relaxed mb-4">{project.summary}</p>
+                      <div className="flex gap-4">
+                        {project.demoUrl && (
+                          <a
+                            href={project.demoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-sm text-[#00877b] hover:text-[#F0F6FC] transition-colors"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            Live Demo
+                          </a>
+                        )}
+                        {project.repoUrl && (
+                          <a
+                            href={project.repoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-sm text-[#8B949E] hover:text-[#F0F6FC] transition-colors"
+                          >
+                            <Github className="w-4 h-4" />
+                            Repository
+                          </a>
+                        )}
+                      </div>
+                    </article>
+                  </RevealOnScroll>
+                ))}
+              </div>
+            </section>
+
+            {/* SECTION 4: MINI TOOLS */}
+            <section id="tools" className="py-16 border-t border-[#30363D]/60">
+              <RevealOnScroll>
+                <div className="flex items-center gap-3 mb-10">
+                  <div className="p-2.5 rounded-xl bg-[#00877b]/20">
+                    <Calculator className="w-5 h-5 text-[#00877b]" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#F0F6FC]">Mini Tools Percetakan</h2>
+                    <p className="text-sm text-[#8B949E] mt-1">Kalkulator interaktif untuk workflow percetakan</p>
+                  </div>
+                </div>
+              </RevealOnScroll>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {miniTools.map((tool, index) => (
+                  <RevealOnScroll key={tool.title} delay={index * 100}>
+                    <a 
+                      href={tool.url} 
+                      className="group block p-5 rounded-2xl bg-[#161B22]/40 border border-[#30363D]/60 hover:bg-[#161B22]/80 hover:border-[#00877b]/30 transition-all duration-300"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="p-3 rounded-xl bg-[#0D1117]/70 group-hover:scale-110 transition-transform duration-300">
+                          {tool.icon}
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-[#F0F6FC] font-semibold mb-1 flex items-center gap-2">
+                            {tool.title}
+                            <ArrowRight className="w-4 h-4 text-[#8B949E] group-hover:text-[#00877b] group-hover:translate-x-1 transition-all" />
+                          </h3>
+                          <p className="text-sm text-[#8B949E] leading-relaxed">{tool.desc}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </RevealOnScroll>
+                ))}
+              </div>
+            </section>
+
+            {/* SECTION 5: BLOG / TULISAN - NEW */}
+            <section id="blog" className="py-16 border-t border-[#30363D]/60">
+              <RevealOnScroll>
+                <div className="flex items-center gap-3 mb-10">
+                  <div className="p-2.5 rounded-xl bg-[#00877b]/20">
+                    <PenTool className="w-5 h-5 text-[#00877b]" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#F0F6FC]">Tulisan & Notes</h2>
+                    <p className="text-sm text-[#8B949E] mt-1">Pemikiran, proses, dan problem-solving</p>
+                  </div>
+                </div>
+              </RevealOnScroll>
+
+              <div className="space-y-4">
+                {blogPosts.map((post, index) => (
+                  <RevealOnScroll key={post.id} delay={index * 100}>
+                    <article className="group p-6 rounded-2xl bg-[#161B22]/40 border border-[#30363D]/60 hover:bg-[#161B22]/80 hover:border-[#00877b]/30 transition-all duration-300 cursor-pointer">
+                      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                        <div className="flex-1">
+                          {/* Meta info */}
+                          <div className="flex items-center gap-3 mb-3 text-xs text-[#8B949E]">
+                            <span className="flex items-center gap-1">
+                              <Calendar className="w-3.5 h-3.5" />
+                              {post.date}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Clock className="w-3.5 h-3.5" />
+                              {post.readTime} baca
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Eye className="w-3.5 h-3.5" />
+                              {post.views}
+                            </span>
+                          </div>
+                          
+                          {/* Title */}
+                          <h3 className="text-lg font-semibold text-[#F0F6FC] mb-2 group-hover:text-[#00877b] transition-colors flex items-center gap-2">
+                            {post.title}
+                            <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                          </h3>
+                          
+                          {/* Excerpt */}
+                          <p className="text-sm text-[#8B949E] leading-relaxed mb-4">{post.excerpt}</p>
+                          
+                          {/* Tags */}
+                          <div className="flex flex-wrap gap-2">
+                            {post.tags.map((tag) => (
+                              <span
+                                key={tag}
+                                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs bg-[#0D1117] border border-[#30363D] text-[#8B949E] group-hover:border-[#00877b]/40 transition-colors"
+                              >
+                                <Hash className="w-3 h-3" />
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </RevealOnScroll>
+                ))}
+              </div>
+
+              {/* View All Posts Link */}
+              <RevealOnScroll delay={400}>
+                <div className="mt-8 text-center">
+                  <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[#30363D] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#00877b]/50 transition-all">
+                    <span>Lihat semua tulisan</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </RevealOnScroll>
+            </section>
+
+            {/* SECTION 6: CALL TO ACTION */}
+            <section id="halo" className="py-16">
+              <RevealOnScroll>
+                <div className="relative rounded-3xl bg-gradient-to-br from-[#161B22] to-[#0D1117] border border-[#30363D] p-8 md:p-12 overflow-hidden">
+                  {/* Decorative elements */}
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-[#00877b]/10 rounded-full blur-[60px]" />
+                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#00877b]/5 rounded-full blur-[40px]" />
+                  
+                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div className="text-center md:text-left">
+                      <h2 className="text-2xl md:text-3xl font-bold text-[#F0F6FC] mb-3">Mari temukan solusinya bersama.</h2>
+                      <p className="text-[#8B949E] max-w-md">
+                        Punya ide kompleks atau masalah sistem yang terasa buntu? Kirim pesan lewat WhatsApp.
                       </p>
                     </div>
+                    
+                    <a
+                      href="https://wa.me/6285242660003?text=Halo%2C%20saya%20tertarik%20untuk%20kolaborasi."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-6 py-3.5 bg-[#00877b] hover:bg-[#00877b]/90 text-[#F0F6FC] rounded-xl font-medium transition-all duration-300 shadow-[0_0_30px_rgba(0,135,123,0.25)] hover:shadow-[0_0_40px_rgba(0,135,123,0.4)] whitespace-nowrap"
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      Chat WhatsApp
+                    </a>
                   </div>
-                </RevealOnScroll>
-              ))}
-            </div>
-          </section>
-
-          {/* SECTION 3: APA YANG BISA DILAKUKAN */}
-          <section className="py-20 border-t border-[#30363D]">
-            <RevealOnScroll>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#F0F6FC] mb-16 text-center">Fokus Layanan</h2>
-            </RevealOnScroll>
-
-            <div className="space-y-4 max-w-4xl mx-auto">
-              {[
-                "Membangun arsitektur sistem yang tahan banting dan siap scale-up.",
-                "Menerjemahkan ide bisnis yang kompleks menjadi UI/UX yang mudah dimengerti.",
-                "Menulis kode yang bersih, logis, dan mudah di-maintenance oleh tim Anda nanti.",
-                "Memecahkan 'masalah mustahil' yang mungkin ditinggalkan developer sebelumnya."
-              ].map((text, i) => (
-                <RevealOnScroll key={i} delay={i * 100}>
-                  <div className="flex items-center gap-4 p-6 rounded-2xl hover:bg-[#161B22]/80 transition-colors duration-300">
-                    <CheckCircle2 className="w-6 h-6 text-[#00877b] flex-shrink-0" />
-                    <p className="text-[#C9D1D9] text-lg">{text}</p>
-                  </div>
-                </RevealOnScroll>
-              ))}
-            </div>
-          </section>
-
-          {/* SECTION 4: PROYEK PILIHAN */}
-          <section id="projects" className="py-20 border-t border-[#30363D]">
-            <RevealOnScroll>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#F0F6FC] mb-5 text-center">Proyek Pilihan</h2>
-            </RevealOnScroll>
-            <RevealOnScroll delay={80}>
-              <p className="text-[#8B949E] text-center max-w-2xl mx-auto mb-14">
-                Beberapa contoh yang merepresentasikan pendekatan kerja saya: cepat dipahami, rapi, dan fokus ke dampak.
-              </p>
-            </RevealOnScroll>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {featuredProjects.map((project, index) => (
-                <RevealOnScroll key={project.title} delay={index * 120}>
-                  <article className="h-full rounded-3xl bg-[#161B22]/80 border border-[#30363D] p-7 hover:bg-[#21262D] transition-all duration-300">
-                    <h3 className="text-[#F0F6FC] text-xl font-semibold mb-3">{project.title}</h3>
-                    <p className="text-[#8B949E] text-sm leading-relaxed mb-5">{project.summary}</p>
-
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.stack.map((item) => (
-                        <span
-                          key={item}
-                          className="inline-flex items-center px-2.5 py-1 rounded-full text-xs bg-[#0D1117] border border-[#30363D] text-[#C9D1D9]"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-3">
-                      {project.demoUrl ? (
-                        <a
-                          href={project.demoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-sm text-[#00877b] hover:text-[#00877b] transition-colors"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                          Live Demo
-                        </a>
-                      ) : (
-                        <span className="text-sm text-[#8B949E]">Live Demo: Private</span>
-                      )}
-
-                      {project.repoUrl ? (
-                        <a
-                          href={project.repoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-sm text-[#C9D1D9] hover:text-[#F0F6FC] transition-colors"
-                        >
-                          <Github className="w-4 h-4" />
-                          Repository
-                        </a>
-                      ) : (
-                        <span className="text-sm text-[#8B949E]">Repository: Private</span>
-                      )}
-                    </div>
-                  </article>
-                </RevealOnScroll>
-              ))}
-            </div>
-          </section>
-
-          {/* SECTION 4.5: MINI TOOLS */}
-          <section id="tools" className="py-20 border-t border-[#30363D]">
-            <RevealOnScroll>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#F0F6FC] mb-5 text-center">Mini Tools Percetakan</h2>
-            </RevealOnScroll>
-            <RevealOnScroll delay={80}>
-              <p className="text-[#8B949E] text-center max-w-2xl mx-auto mb-14">
-                Kumpulan kalkulator dan alat bantu interaktif untuk menghitung kebutuhan cetak, kertas, dan estimasi biaya secara akurat.
-              </p>
-            </RevealOnScroll>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {miniTools.map((tool, index) => (
-                <RevealOnScroll key={tool.title} delay={index * 120}>
-                  <a href={tool.url} className="block h-full rounded-3xl bg-[#161B22]/80 border border-[#30363D] p-7 hover:bg-[#21262D] transition-all duration-300 group">
-                    <div className="mb-6 p-4 rounded-2xl bg-[#0D1117]/70 inline-block shadow-inner shadow-[#30363D] group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500">
-                      {tool.icon}
-                    </div>
-                    <h3 className="text-[#F0F6FC] text-xl font-semibold mb-3 flex items-center gap-2">
-                      {tool.title}
-                      <ArrowRight className="w-4 h-4 text-[#8B949E] group-hover:text-[#F0F6FC] group-hover:translate-x-1 transition-all" />
-                    </h3>
-                    <p className="text-[#8B949E] text-sm leading-relaxed">{tool.desc}</p>
-                  </a>
-                </RevealOnScroll>
-              ))}
-            </div>
-          </section>
-
-          {/* SECTION 5: CALL TO ACTION (HALO) */}
-          <section id="halo" className="py-24 mb-4">
-            <RevealOnScroll>
-              <div className="relative rounded-[2.5rem] bg-gradient-to-br from-[#161B22] to-[#0D1117] border border-[#30363D] p-10 md:p-20 text-center overflow-hidden">
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
-                
-                <div className="relative z-10">
-                  <h2 className="text-4xl md:text-5xl font-bold text-[#F0F6FC] mb-6">Mari temukan solusinya bersama.</h2>
-                  <p className="text-xl text-[#8B949E] max-w-2xl mx-auto mb-10">
-                    Punya ide kompleks atau masalah sistem yang terasa buntu? Kirim pesan lewat WhatsApp, kita ngobrol santai.
-                  </p>
-                  
-                  <a
-                    href="https://wa.me/6285242660003?text=Halo%2C%20saya%20tertarik%20untuk%20kolaborasi."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Hubungi via WhatsApp"
-                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#00877b] hover:bg-[#00877b] text-[#F0F6FC] rounded-full font-medium transition-all duration-300 shadow-[0_0_30px_rgba(0,135,123,0.3)] hover:shadow-[0_0_40px_rgba(0,135,123,0.45)] transform hover:-translate-y-1"
-                  >
-                    <MessageCircle className="w-5 h-5" />
-                    Chat WhatsApp
-                  </a>
                 </div>
-              </div>
-            </RevealOnScroll>
-          </section>
+              </RevealOnScroll>
+            </section>
 
-        </div>
-      </main>
+          </div>
+        </main>
+      </div>
 
-      {/* Footer Minimalis */}
-      <footer className="relative z-10 border-t border-[#30363D] pt-6 pb-4 md:pb-6">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[#8B949E] text-sm text-center md:text-left">
+      {/* Footer */}
+      <footer className="relative z-10 lg:ml-[280px] border-t border-[#30363D]/60 py-6">
+        <div className="max-w-4xl mx-auto px-5 md:px-10 lg:px-16 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[#8B949E] text-sm">
             Dibuat dengan logika, dedikasi, & secangkir kopi. &copy; {new Date().getFullYear()}
           </p>
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             <a
               href="https://github.com/1lhmjya"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="GitHub profile"
               className="text-[#8B949E] hover:text-[#F0F6FC] transition-colors"
             >
               <Github className="w-5 h-5" />
             </a>
             <a
-              href="https://wa.me/6285242660003?text=Halo%2C%20saya%20lihat%20portfolio%20Anda."
+              href="https://wa.me/6285242660003"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="WhatsApp chat"
               className="text-[#8B949E] hover:text-[#F0F6FC] transition-colors"
             >
               <MessageCircle className="w-5 h-5" />
