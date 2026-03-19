@@ -547,17 +547,23 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
               Ilham<span className="text-[#00877b]">.</span>
             </span>
             <div className="flex items-center gap-3">
-              {/* Mobile Profile - Icon + Name */}
+              {/* Mobile Profile - Icon + Name with shrink on scroll */}
               <div className="flex items-center gap-2.5">
                 <div className="relative">
                   <img
                     src="/profil.png"
-                    alt="Ilham Jaya"
-                    className="w-8 h-8 rounded-full object-cover border border-[#30363D]"
+                    alt="Ilham"
+                    className={`rounded-full object-cover border-2 border-[#00877b]/50 shadow-[0_0_15px_rgba(0,135,123,0.3)] transition-all duration-300 ${
+                      isScrolled ? 'w-9 h-9' : 'w-12 h-12'
+                    }`}
                   />
-                  <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[#00877b] rounded-full border-2 border-[#0D1117]"></span>
+                  <span className={`absolute bg-[#00877b] rounded-full border-2 border-[#0D1117] transition-all duration-300 ${
+                      isScrolled ? '-bottom-0.5 -right-0.5 w-2.5 h-2.5' : '-bottom-1 -right-1 w-3 h-3'
+                  }`}></span>
                 </div>
-                <span className="text-sm font-medium text-[#F0F6FC] hidden sm:block">Ilham Jaya</span>
+                <span className={`font-semibold text-[#F0F6FC] transition-all duration-300 ${
+                  isScrolled ? 'text-sm' : 'text-base'
+                }`}>Ilham</span>
               </div>
             </div>
           </div>
