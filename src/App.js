@@ -111,6 +111,10 @@ const App = () => {
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [typingDots, setTypingDots] = useState('.');
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  // Floating AI Button position for mobile (bouncing effect)
+  const [floatingPos, setFloatingPos] = useState({ right: 20, bottom: 20 });
+  const [isBouncing, setIsBouncing] = useState(false);
 
   // Script cerita AI yang akan diketik
   const aiStoryScript = `Halo. Izinkan saya mengambil alih layar ini sebentar.
@@ -145,6 +149,27 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Bouncing effect for floating AI button on mobile when scrolling
+  useEffect(() => {
+    const handleScrollBounce = () => {
+      if (window.innerWidth >= 1024) return; // Only on mobile
+      
+      setIsBouncing(true);
+      
+      // Random position within safe bounds (20-80% of screen)
+      const newRight = Math.floor(Math.random() * 60) + 15; // 15-75%
+      const newBottom = Math.floor(Math.random() * 40) + 15; // 15-55%
+      
+      setFloatingPos({ right: newRight, bottom: newBottom });
+      
+      // Reset bouncing state after animation
+      setTimeout(() => setIsBouncing(false), 600);
+    };
+
+    window.addEventListener('scroll', handleScrollBounce, { passive: true });
+    return () => window.removeEventListener('scroll', handleScrollBounce);
   }, []);
 
   useEffect(() => {
@@ -422,15 +447,27 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
                 </div>
                 <span className="text-sm font-medium text-[#F0F6FC] hidden sm:block">Ilham Jaya</span>
               </div>
-              <button 
-                onClick={() => setIsModalOpen(true)}
-                className="p-2.5 rounded-lg bg-[#00877b]/20 text-[#00877b]"
-              >
-                <Bot className="w-5 h-5" />
-              </button>
             </div>
           </div>
         </nav>
+
+        {/* FLOATING AI BUTTON - Mobile Only */}
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className={`lg:hidden fixed z-50 p-4 rounded-full bg-[#00877b] text-white shadow-[0_0_30px_rgba(0,135,123,0.4)] border-2 border-[#00877b]/30 transition-all duration-500 ease-out ${
+            isBouncing ? 'scale-110' : 'scale-100 hover:scale-110'
+          }`}
+          style={{
+            right: `${floatingPos.right}px`,
+            bottom: `${floatingPos.bottom}px`,
+          }}
+        >
+          <Bot className="w-6 h-6" />
+          <span className="absolute -top-1 -right-1 flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00d4aa] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-[#00d4aa]"></span>
+          </span>
+        </button>
 
         {/* MAIN CONTENT AREA */}
         <main className="flex-1 lg:ml-[280px] px-5 md:px-10 lg:px-16 pt-20 lg:pt-12 pb-12">
