@@ -410,6 +410,18 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
               Ilham<span className="text-[#00877b]">.</span>
             </span>
             <div className="flex items-center gap-3">
+              {/* Mobile Profile - Icon + Name */}
+              <div className="flex items-center gap-2.5">
+                <div className="relative">
+                  <img
+                    src="/profil.png"
+                    alt="Ilham Jaya"
+                    className="w-8 h-8 rounded-xl object-cover border border-[#30363D]"
+                  />
+                  <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[#00877b] rounded-full border-2 border-[#0D1117]"></span>
+                </div>
+                <span className="text-sm font-medium text-[#F0F6FC] hidden sm:block">Ilham Jaya</span>
+              </div>
               <button 
                 onClick={() => setIsModalOpen(true)}
                 className="p-2.5 rounded-lg bg-[#00877b]/20 text-[#00877b]"
