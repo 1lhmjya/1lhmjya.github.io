@@ -543,7 +543,9 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           isScrolled ? 'bg-[#0D1117]/95 border-b border-[#30363D]' : 'bg-[#0D1117]/70'
         }`}>
           <div className="flex items-center justify-between px-5 py-4">
-            <span className="font-bold text-[#F0F6FC] text-3xl tracking-tight">
+            <span className={`font-bold text-[#F0F6FC] tracking-tight transition-all duration-300 ${
+              isScrolled ? 'text-xl' : 'text-3xl'
+            }`}>
               Ilham<span className="text-[#00877b]">.</span>
             </span>
             <div className="flex items-center gap-3">
