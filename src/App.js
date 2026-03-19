@@ -112,9 +112,16 @@ const App = () => {
   const [typingDots, setTypingDots] = useState('.');
   const [isScrolled, setIsScrolled] = useState(false);
   
-  // Floating AI Button position for mobile (bouncing effect)
-  const [floatingPos, setFloatingPos] = useState({ right: 20, bottom: 20 });
-  const [isBouncing, setIsBouncing] = useState(false);
+  // Floating AI Button - Draggable Ball Physics
+  const [ballPos, setBallPos] = useState({ x: 0, y: 0 });
+  const [ballVelocity, setBallVelocity] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [ballPosStart, setBallPosStart] = useState({ x: 0, y: 0 });
+  const ballRef = useRef(null);
+  const animationRef = useRef(null);
+  const lastMousePos = useRef({ x: 0, y: 0 });
+  const lastTime = useRef(Date.now());
 
   // Script cerita AI yang akan diketik
   const aiStoryScript = `Halo. Izinkan saya mengambil alih layar ini sebentar.
@@ -151,26 +158,131 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Bouncing effect for floating AI button on mobile when scrolling
+  // Physics-based animation loop for floating ball
   useEffect(() => {
-    const handleScrollBounce = () => {
-      if (window.innerWidth >= 1024) return; // Only on mobile
+    if (window.innerWidth >= 1024) return; // Only on mobile
+    
+    const ballSize = 56; // Width/height of ball
+    const friction = 0.98; // Air resistance
+    const bounceDamping = 0.7; // Energy loss on bounce
+    
+    const animate = () => {
+      if (!isDragging) {
+        setBallPos(prev => {
+          let newX = prev.x + ballVelocity.x;
+          let newY = prev.y + ballVelocity.y;
+          let newVelX = ballVelocity.x * friction;
+          let newVelY = ballVelocity.y * friction;
+          
+          const maxX = window.innerWidth - ballSize;
+          const maxY = window.innerHeight - ballSize;
+          
+          // Bounce off walls
+          if (newX <= 0) {
+            newX = 0;
+            newVelX = -newVelX * bounceDamping;
+          } else if (newX >= maxX) {
+            newX = maxX;
+            newVelX = -newVelX * bounceDamping;
+          }
+          
+          // Bounce off floor/ceiling
+          if (newY <= 0) {
+            newY = 0;
+            newVelY = -newVelY * bounceDamping;
+          } else if (newY >= maxY) {
+            newY = maxY;
+            newVelY = -newVelY * bounceDamping;
+          }
+          
+          // Stop if velocity is very small
+          if (Math.abs(newVelX) < 0.1) newVelX = 0;
+          if (Math.abs(newVelY) < 0.1) newVelY = 0;
+          
+          setBallVelocity({ x: newVelX, y: newVelY });
+          return { x: newX, y: newY };
+        });
+      }
       
-      setIsBouncing(true);
-      
-      // Random position within safe bounds (20-80% of screen)
-      const newRight = Math.floor(Math.random() * 60) + 15; // 15-75%
-      const newBottom = Math.floor(Math.random() * 40) + 15; // 15-55%
-      
-      setFloatingPos({ right: newRight, bottom: newBottom });
-      
-      // Reset bouncing state after animation
-      setTimeout(() => setIsBouncing(false), 600);
+      animationRef.current = requestAnimationFrame(animate);
     };
+    
+    animationRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationRef.current);
+  }, [isDragging, ballVelocity]);
 
-    window.addEventListener('scroll', handleScrollBounce, { passive: true });
-    return () => window.removeEventListener('scroll', handleScrollBounce);
+  // Initialize ball position to bottom-right corner
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      setBallPos({
+        x: window.innerWidth - 80,
+        y: window.innerHeight - 120
+      });
+    }
   }, []);
+
+  // Drag handlers for floating ball
+  const handleBallDragStart = (e) => {
+    if (window.innerWidth >= 1024) return;
+    
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    setIsDragging(true);
+    setDragStart({ x: clientX, y: clientY });
+    setBallPosStart({ x: ballPos.x, y: ballPos.y });
+    setBallVelocity({ x: 0, y: 0 });
+    lastMousePos.current = { x: clientX, y: clientY };
+    lastTime.current = Date.now();
+    
+    e.preventDefault();
+  };
+
+  const handleBallDragMove = (e) => {
+    if (!isDragging) return;
+    
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    const deltaX = clientX - dragStart.x;
+    const deltaY = clientY - dragStart.y;
+    
+    // Update ball position
+    setBallPos({
+      x: Math.max(0, Math.min(window.innerWidth - 56, ballPosStart.x + deltaX)),
+      y: Math.max(0, Math.min(window.innerHeight - 56, ballPosStart.y + deltaY))
+    });
+    
+    // Calculate velocity for throw
+    const now = Date.now();
+    const dt = now - lastTime.current;
+    if (dt > 0) {
+      lastMousePos.current = { x: clientX, y: clientY };
+      lastTime.current = now;
+    }
+    
+    e.preventDefault();
+  };
+
+  const handleBallDragEnd = (e) => {
+    if (!isDragging) return;
+    
+    const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+    const clientY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+    
+    // Calculate throw velocity based on last movement
+    const now = Date.now();
+    const dt = Math.max(1, now - lastTime.current);
+    const velX = ((clientX - lastMousePos.current.x) / dt) * 15;
+    const velY = ((clientY - lastMousePos.current.y) / dt) * 15;
+    
+    setBallVelocity({
+      x: Math.max(-30, Math.min(30, velX)),
+      y: Math.max(-30, Math.min(30, velY))
+    });
+    
+    setIsDragging(false);
+  };
 
   useEffect(() => {
     if (!isModalOpen || isTypingComplete) {
@@ -451,19 +563,28 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
           </div>
         </nav>
 
-        {/* FLOATING AI BUTTON - Mobile Only */}
+        {/* FLOATING AI BALL - Draggable & Bouncing (Mobile Only) */}
         <button
-          onClick={() => setIsModalOpen(true)}
-          className={`lg:hidden fixed z-50 p-4 rounded-full bg-[#00877b] text-white shadow-[0_0_30px_rgba(0,135,123,0.4)] border-2 border-[#00877b]/30 transition-all duration-500 ease-out ${
-            isBouncing ? 'scale-110' : 'scale-100 hover:scale-110'
+          ref={ballRef}
+          onClick={() => !isDragging && setIsModalOpen(true)}
+          onMouseDown={handleBallDragStart}
+          onMouseMove={handleBallDragMove}
+          onMouseUp={handleBallDragEnd}
+          onMouseLeave={handleBallDragEnd}
+          onTouchStart={handleBallDragStart}
+          onTouchMove={handleBallDragMove}
+          onTouchEnd={handleBallDragEnd}
+          className={`lg:hidden fixed z-50 w-14 h-14 rounded-full bg-[#00877b] text-white shadow-[0_0_30px_rgba(0,135,123,0.5)] border-2 border-[#00877b]/40 cursor-grab active:cursor-grabbing select-none touch-none ${
+            isDragging ? 'scale-110 shadow-[0_0_40px_rgba(0,135,123,0.7)]' : 'scale-100'
           }`}
           style={{
-            right: `${floatingPos.right}px`,
-            bottom: `${floatingPos.bottom}px`,
+            left: `${ballPos.x}px`,
+            top: `${ballPos.y}px`,
+            transition: isDragging ? 'none' : 'transform 0.1s ease-out',
           }}
         >
-          <Bot className="w-6 h-6" />
-          <span className="absolute -top-1 -right-1 flex h-3 w-3">
+          <Bot className="w-6 h-6 mx-auto pointer-events-none" />
+          <span className="absolute -top-1 -right-1 flex h-3 w-3 pointer-events-none">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00d4aa] opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3 bg-[#00d4aa]"></span>
           </span>
