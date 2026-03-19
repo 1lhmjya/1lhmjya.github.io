@@ -333,7 +333,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
                 <img
                   src="/profil.png"
                   alt="Foto profil"
-                  className="w-14 h-14 rounded-2xl object-cover border border-[#30363D] shadow-[0_0_20px_rgba(0,135,123,0.15)]"
+                  className="w-14 h-14 rounded-full object-cover border border-[#30363D] shadow-[0_0_20px_rgba(0,135,123,0.15)]"
                 />
                 <span className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#00877b] rounded-full border-2 border-[#0D1117]"></span>
               </div>
@@ -416,7 +416,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
                   <img
                     src="/profil.png"
                     alt="Ilham Jaya"
-                    className="w-8 h-8 rounded-xl object-cover border border-[#30363D]"
+                    className="w-8 h-8 rounded-full object-cover border border-[#30363D]"
                   />
                   <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[#00877b] rounded-full border-2 border-[#0D1117]"></span>
                 </div>
