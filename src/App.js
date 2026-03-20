@@ -335,6 +335,13 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
 
   const featuredProjects = [
     {
+      title: "QR Craft Studio",
+      summary: "Professional QR code generator dengan advanced customization. Single, serial, atau batch generation dengan export SVG/PNG/ZIP. Modular architecture dengan clean separation of concerns.",
+      stack: ["Vanilla JS", "Tailwind CSS", "QR Code Styling", "JSZip"],
+      demoUrl: "https://1lhmjya.github.io/QR-Generator/",
+      repoUrl: "https://github.com/1lhmjya/QR-Generator"
+    },
+    {
       title: "Portfolio Website",
       summary: "Website portfolio personal dengan pendekatan UI modern, copy storytelling, dan optimasi deployment ke GitHub Pages.",
       stack: ["React", "Tailwind CSS", "GitHub Pages"],
