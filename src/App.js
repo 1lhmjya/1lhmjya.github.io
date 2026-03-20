@@ -20,7 +20,8 @@ import {
   ChevronRight,
   Hash,
   Eye,
-  Terminal
+  Terminal,
+  QrCode
 } from 'lucide-react';
 
 // --- Komponen Custom untuk Animasi Scroll (Reveal) ---
@@ -397,7 +398,15 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
       title: "Neovim Reference",
       desc: "Referensi lengkap shortcut Neovim dengan penjelasan detail dan contoh penggunaan.",
       icon: <Terminal className="w-6 h-6 text-[#7aa2f7]" />,
-      url: "https://1lhmjya.github.io/nvim-shortcuts-reference-id/"
+      url: "https://1lhmjya.github.io/nvim-shortcuts-reference-id/",
+      external: true
+    },
+    {
+      title: "QR Craft Studio",
+      desc: "Professional QR code generator dengan advanced customization dan batch export.",
+      icon: <QrCode className="w-6 h-6 text-[#0d9488]" />,
+      url: "https://1lhmjya.github.io/QR-Generator/",
+      external: true
     }
   ];
 
