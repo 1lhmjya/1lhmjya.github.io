@@ -19,7 +19,8 @@ import {
   Clock,
   ChevronRight,
   Hash,
-  Eye
+  Eye,
+  Terminal
 } from 'lucide-react';
 
 // --- Komponen Custom untuk Animasi Scroll (Reveal) ---
@@ -383,6 +384,16 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
     }
   ];
 
+  // --- Data Developer Tools ---
+  const developerTools = [
+    {
+      title: "Neovim Reference",
+      desc: "Referensi lengkap shortcut Neovim dengan penjelasan detail dan contoh penggunaan.",
+      icon: <Terminal className="w-6 h-6 text-[#7aa2f7]" />,
+      url: "https://1lhmjya.github.io/nvim-shortcuts-reference-id/"
+    }
+  ];
+
   // --- Data Blog/Tulisan ---
   const blogPosts = [
     {
@@ -429,6 +440,7 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
     { id: 'services', label: 'Layanan', icon: <Lightbulb className="w-5 h-5" /> },
     { id: 'projects', label: 'Proyek', icon: <Sparkles className="w-5 h-5" /> },
     { id: 'tools', label: 'Tools', icon: <Calculator className="w-5 h-5" /> },
+    { id: 'dev-tools', label: 'Dev Tools', icon: <Terminal className="w-5 h-5" /> },
     { id: 'blog', label: 'Tulisan', icon: <PenTool className="w-5 h-5" /> },
   ];
 
@@ -762,6 +774,47 @@ Silakan tutup pesan ini, dan mari kita mulai sesuatu yang hebat.`;
                           <h3 className="text-[#F0F6FC] font-semibold mb-1 flex items-center gap-2">
                             {tool.title}
                             <ArrowRight className="w-4 h-4 text-[#8B949E] group-hover:text-[#00877b] group-hover:translate-x-1 transition-all" />
+                          </h3>
+                          <p className="text-sm text-[#8B949E] leading-relaxed">{tool.desc}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </RevealOnScroll>
+                ))}
+              </div>
+            </section>
+
+            {/* SECTION 4b: DEVELOPER TOOLS */}
+            <section id="dev-tools" className="py-16 border-t border-[#30363D]/60">
+              <RevealOnScroll>
+                <div className="flex items-center gap-3 mb-10">
+                  <div className="p-2.5 rounded-xl bg-[#7aa2f7]/20">
+                    <Terminal className="w-5 h-5 text-[#7aa2f7]" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#F0F6FC]">Developer Tools</h2>
+                    <p className="text-sm text-[#8B949E] mt-1">Utilities and references for development workflow</p>
+                  </div>
+                </div>
+              </RevealOnScroll>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {developerTools.map((tool, index) => (
+                  <RevealOnScroll key={tool.title} delay={index * 100}>
+                    <a 
+                      href={tool.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group block p-5 rounded-2xl bg-[#161B22]/40 border border-[#30363D]/60 hover:bg-[#161B22]/80 hover:border-[#7aa2f7]/30 transition-all duration-300"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="p-3 rounded-xl bg-[#0D1117]/70 group-hover:scale-110 transition-transform duration-300">
+                          {tool.icon}
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-[#F0F6FC] font-semibold mb-1 flex items-center gap-2">
+                            {tool.title}
+                            <ExternalLink className="w-4 h-4 text-[#8B949E] group-hover:text-[#7aa2f7] transition-all" />
                           </h3>
                           <p className="text-sm text-[#8B949E] leading-relaxed">{tool.desc}</p>
                         </div>
