@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0D1117">
+  <link rel="icon" type="image/png" href="../profil.png">
+  <title>Nota NCR — Tools Percetakan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <header class="header">
+      <div class="container">
+        <a href="https://1lhmjya.github.io/" class="back-link">
+          <i class="fa-solid fa-arrow-left" style="margin-right:6px;"></i>Kembali
+        </a>
+        <div class="header-page-info">
+          <div class="header-page-title">Kalkulator Nota NCR</div>
+          <div class="header-page-desc">Konversi buku ke RIM, potong F4, harga per lapisan</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+
+        <div class="cols cols-sidebar">
+          <!-- ══ INPUT ══ -->
+          <div class="card">
+            <div class="card-header card-header-purple">
+              <div class="card-header-icon card-header-icon-purple"><i class="fa-solid fa-file-invoice"></i></div>
+              <div class="card-header-text">
+                <div class="card-title">Spesifikasi Nota</div>
+                <div class="card-desc">Ukuran bahan NCR standar F4 (21×33 cm). Kebutuhan dibulatkan ke atas per RIM (1 RIM = 500 lembar) untuk setiap lapisan.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-row form-row-2">
+                <div class="form-group">
+                  <label class="form-label">Jumlah Buku (set)</label>
+                  <input type="text" id="jumlah-buku" class="form-input" value="50" inputmode="numeric">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Lembar per Buku</label>
+                  <input type="text" id="lembar-per-buku" class="form-input" value="50" inputmode="numeric">
+                </div>
+              </div>
+
+              <div class="form-row form-row-2">
+                <div class="form-group">
+                  <label class="form-label">Jumlah Rangkap (ply)</label>
+                  <select id="ply" class="form-select">
+                    <option value="2">2 rangkap (Top + Bottom)</option>
+                    <option value="3" selected>3 rangkap (Top + Mid + Bottom)</option>
+                    <option value="4">4 rangkap (Top + Mid×2 + Bottom)</option>
+                    <option value="5">5 rangkap (Top + Mid×3 + Bottom)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Potongan F4</label>
+                  <select id="potongan" class="form-select">
+                    <option value="2">1/2 F4 (2 lebar)</option>
+                    <option value="3">1/3 F4 (3 lebar)</option>
+                    <option value="4" selected>1/4 F4 (4 lebar)</option>
+                    <option value="6">1/6 F4 (6 lebar)</option>
+                    <option value="8">1/8 F4 (8 lebar)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Orientasi Potong</label>
+                <select id="orientasi" class="form-select">
+                  <option value="portrait">Portrait (panjang F4 sejajar sisi panjang)</option>
+                  <option value="landscape">Landscape (panjang F4 sejajar sisi lebar)</option>
+                </select>
+                <div class="form-hint">Memengaruhi arah potong, posisi porporasi (garis sobek), dan penjilidan.</div>
+              </div>
+
+              <hr class="section-divider">
+              <div class="section-title">Harga Bahan NCR per Lapisan (per RIM)</div>
+
+              <!-- Top -->
+              <div class="form-group"
+                style="background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);">
+                <label class="form-label" style="color:var(--accent-orange);">Lapisan 1 — Top</label>
+                <div class="form-row form-row-2">
+                  <div>
+                    <label class="form-label">Warna / Nama</label>
+                    <input type="text" id="top-nama" class="form-input" value="Putih" placeholder="Putih">
+                  </div>
+                  <div>
+                    <label class="form-label">Harga per RIM (Rp)</label>
+                    <input type="text" id="top-harga" class="form-input" value="" inputmode="numeric"
+                      placeholder="250.000">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Middle 1 -->
+              <div id="mid1-section" class="form-group"
+                style="background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);">
+                <label class="form-label" style="color:var(--accent-blue);">Lapisan 2 — Middle 1</label>
+                <div class="form-row form-row-2">
+                  <div>
+                    <label class="form-label">Warna / Nama</label>
+                    <input type="text" id="mid1-nama" class="form-input" value="Kuning" placeholder="Kuning">
+                  </div>
+                  <div>
+                    <label class="form-label">Harga per RIM (Rp)</label>
+                    <input type="text" id="mid1-harga" class="form-input" value="" inputmode="numeric"
+                      placeholder="230.000">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Middle 2 -->
+              <div id="mid2-section" class="form-group"
+                style="display:none;background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);">
+                <label class="form-label" style="color:var(--accent-pink);">Lapisan 3 — Middle 2</label>
+                <div class="form-row form-row-2">
+                  <div>
+                    <label class="form-label">Warna / Nama</label>
+                    <input type="text" id="mid2-nama" class="form-input" value="Hijau" placeholder="Hijau">
+                  </div>
+                  <div>
+                    <label class="form-label">Harga per RIM (Rp)</label>
+                    <input type="text" id="mid2-harga" class="form-input" value="" inputmode="numeric"
+                      placeholder="230.000">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Middle 3 -->
+              <div id="mid3-section" class="form-group"
+                style="display:none;background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);">
+                <label class="form-label" style="color:var(--accent-orange);">Lapisan 4 — Middle 3</label>
+                <div class="form-row form-row-2">
+                  <div>
+                    <label class="form-label">Warna / Nama</label>
+                    <input type="text" id="mid3-nama" class="form-input" value="Biru" placeholder="Biru">
+                  </div>
+                  <div>
+                    <label class="form-label">Harga per RIM (Rp)</label>
+                    <input type="text" id="mid3-harga" class="form-input" value="" inputmode="numeric"
+                      placeholder="230.000">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom -->
+              <div class="form-group"
+                style="background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);">
+                <label class="form-label" style="color:var(--accent-green);">Lapisan <span
+                    id="bottom-label-num">3</span> — Bottom</label>
+                <div class="form-row form-row-2">
+                  <div>
+                    <label class="form-label">Warna / Nama</label>
+                    <input type="text" id="bot-nama" class="form-input" value="Merah" placeholder="Merah">
+                  </div>
+                  <div>
+                    <label class="form-label">Harga per RIM (Rp)</label>
+                    <input type="text" id="bot-harga" class="form-input" value="" inputmode="numeric"
+                      placeholder="220.000">
+                  </div>
+                </div>
+              </div>
+
+              <hr class="section-divider">
+              <div class="section-title">Biaya Cetak (Opsional)</div>
+
+              <div class="form-group"
+                style="background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);">
+                <div class="form-row form-row-2">
+                  <div>
+                    <label class="form-label" style="color:var(--text-secondary);">Ongkos Cetak per Lembar F4
+                      (Rp)</label>
+                    <input type="text" id="cetak-per-lembar" class="form-input" value="" inputmode="numeric"
+                      placeholder="0">
+                    <div class="form-hint">Biaya variabel: dikalikan jumlah lembar × ply.</div>
+                  </div>
+                  <div>
+                    <label class="form-label" style="color:var(--text-secondary);">Ongkos Cetak per Set/Warna
+                      (Rp)</label>
+                    <input type="text" id="cetak-per-set" class="form-input" value="" inputmode="numeric"
+                      placeholder="0">
+                    <div class="form-hint">Biaya tetap per warna (plate): dikalikan jumlah ply saja.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══ HASIL ══ -->
+          <div class="card">
+            <div class="card-header card-header-purple">
+              <div class="card-title">Kebutuhan & Biaya</div>
+              <div class="card-desc">Total lembar per lapisan, konversi ke lembar F4, pembulatan ke RIM, dan estimasi
+                biaya bahan.</div>
+            </div>
+            <div class="card-body">
+              <div id="result-panel"></div>
+              <div id="viz-container" style="margin-top:16px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container" style="display:flex;align-items:center;justify-content:center;gap:10px;">
+        <span>Tools Percetakan Pro — <em>Made With Logic and Math</em></span>
+        <a href="https://1lhmjya.github.io/" target="_blank" rel="noopener" title="GitHub Profile"
+          style="display:inline-flex;align-items:center;color:var(--text-muted);transition:0.2s;"
+          onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"
+            aria-label="GitHub">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.922.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 21.796 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // ════════════════════════════════════════════════
+    //  NCR Calculator — dengan visualisasi potongan F4
+    // ════════════════════════════════════════════════
+
+    const LEMBAR_PER_RIM = 500;
+    const F4_P = 33; // cm panjang
+    const F4_L = 21; // cm lebar
+
+    function formatCurrency(n) {
+      const num = typeof n === 'string' ? parseFloat(n) : n;
+      if (isNaN(num) || num === 0) return 'Rp 0';
+      return 'Rp ' + new Intl.NumberFormat('id-ID').format(Math.round(num));
+    }
+    function fmt(n) { return n % 1 === 0 ? String(n) : n.toFixed(1); }
+
+    function parseRupiah(s) {
+      if (!s) return 0;
+      return parseInt(String(s).replace(/\D/g, ''), 10) || 0;
+    }
+
+    // ── Warna untuk potongan ──
+    const CUT_COLORS = [
+      { fill: 'rgba(139,92,246,0.25)', stroke: '#8b5cf6', text: '#c4b5fd' },  // purple
+      { fill: 'rgba(59,130,246,0.25)', stroke: '#3b82f6', text: '#93c5fd' },   // blue
+      { fill: 'rgba(16,185,129,0.25)', stroke: '#10b981', text: '#6ee7b7' },   // green
+      { fill: 'rgba(245,158,11,0.25)', stroke: '#f59e0b', text: '#fcd34d' },   // amber
+      { fill: 'rgba(236,72,153,0.25)', stroke: '#ec4899', text: '#f9a8d4' },   // pink
+      { fill: 'rgba(99,102,241,0.25)', stroke: '#6366f1', text: '#a5b4fc' },   // indigo
+      { fill: 'rgba(20,184,166,0.25)', stroke: '#14b8a6', text: '#5eead4' },   // teal
+      { fill: 'rgba(239,68,68,0.25)', stroke: '#ef4444', text: '#fca5a5' },   // red
+    ];
+
+    const PLY_COLORS = {
+      top: { fill: '#fef3c7', stroke: '#f59e0b', text: '#92400e', label: 'Top' },
+      middle1: { fill: '#dbeafe', stroke: '#3b82f6', text: '#1e40af', label: 'Middle 1' },
+      middle2: { fill: '#fce7f3', stroke: '#ec4899', text: '#9d174d', label: 'Middle 2' },
+      middle3: { fill: '#e0e7ff', stroke: '#6366f1', text: '#3730a3', label: 'Middle 3' },
+      bottom: { fill: '#dcfce7', stroke: '#10b981', text: '#065f46', label: 'Bottom' },
+    };
+
+    /**
+     * Menghitung layout potongan pada kertas F4.
+     * Mengembalikan array of rects { x, y, w, h, label } untuk setiap potongan nota.
+     */
+    function computeF4Cuts(lebarPerF4, orientasi) {
+      const sheetW = orientasi === 'portrait' ? F4_L : F4_P; // lebar tampilan
+      const sheetH = orientasi === 'portrait' ? F4_P : F4_L; // tinggi tampilan
+
+      const cuts = [];
+
+      // Logika potong: membagi F4 menjadi lebarPerF4 bagian
+      // Untuk 1/2, 1/3, 1/4 → potong sepanjang sisi panjang (33cm) menjadi strip
+      // Untuk 1/6 → 2 kolom × 3 baris, untuk 1/8 → 2 kolom × 4 baris
+      if (lebarPerF4 <= 4) {
+        // Potong lurus: bagi sisi panjang
+        const pieceW = sheetW;
+        const pieceH = sheetH / lebarPerF4;
+        for (let i = 0; i < lebarPerF4; i++) {
+          cuts.push({
+            x: 0, y: i * pieceH,
+            w: pieceW, h: pieceH,
+            label: `${fmt(pieceW)}×${fmt(pieceH)}`,
+            notaNum: i + 1
+          });
+        }
+      } else if (lebarPerF4 === 6) {
+        // 2 kolom × 3 baris
+        const cols = 2, rows = 3;
+        const pieceW = sheetW / cols;
+        const pieceH = sheetH / rows;
+        let num = 1;
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            cuts.push({
+              x: c * pieceW, y: r * pieceH,
+              w: pieceW, h: pieceH,
+              label: `${fmt(pieceW)}×${fmt(pieceH)}`,
+              notaNum: num++
+            });
+          }
+        }
+      } else if (lebarPerF4 === 8) {
+        // 2 kolom × 4 baris
+        const cols = 2, rows = 4;
+        const pieceW = sheetW / cols;
+        const pieceH = sheetH / rows;
+        let num = 1;
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            cuts.push({
+              x: c * pieceW, y: r * pieceH,
+              w: pieceW, h: pieceH,
+              label: `${fmt(pieceW)}×${fmt(pieceH)}`,
+              notaNum: num++
+            });
+          }
+        }
+      }
+
+      return { cuts, sheetW, sheetH };
+    }
+
+    /**
+     * Render SVG visualisasi:
+     * 1. Potongan kertas F4 (bagian atas)
+     * 2. Preview buku nota (bagian bawah)
+     */
+    function renderNcrSVG(lebarPerF4, orientasi, ply, lembarPerBuku, layerNames) {
+      const { cuts, sheetW, sheetH } = computeF4Cuts(lebarPerF4, orientasi);
+      const potonganLabels = { 2: '1/2 F4', 3: '1/3 F4', 4: '1/4 F4', 6: '1/6 F4', 8: '1/8 F4' };
+
+      // ── SVG 1: Potongan F4 ──
+      const pad = 8;
+      const vbW = sheetW + pad * 2;
+      const vbH = sheetH + pad * 2;
+      const gap = 0.3;
+
+      let svg1 = `<svg viewBox="-${pad} -${pad} ${vbW} ${vbH}" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;max-height:320px;">`;
+
+      // F4 outline
+      svg1 += `<rect x="0" y="0" width="${sheetW}" height="${sheetH}" fill="#1e293b" stroke="#475569" stroke-width="0.3" rx="0.3"/>`;
+
+      // Potongan
+      cuts.forEach((cut, i) => {
+        const c = CUT_COLORS[i % CUT_COLORS.length];
+        svg1 += `<rect x="${cut.x + gap}" y="${cut.y + gap}" width="${cut.w - gap * 2}" height="${cut.h - gap * 2}" fill="${c.fill}" stroke="${c.stroke}" stroke-width="0.25" rx="0.2"/>`;
+
+        // Label ukuran
+        const fontSize = Math.max(1.4, Math.min(2.5, Math.min(cut.w, cut.h) / 4));
+        svg1 += `<text x="${cut.x + cut.w / 2}" y="${cut.y + cut.h / 2 - fontSize * 0.3}" text-anchor="middle" dominant-baseline="middle" font-size="${fontSize}" fill="${c.text}" font-weight="700">${cut.label} cm</text>`;
+        svg1 += `<text x="${cut.x + cut.w / 2}" y="${cut.y + cut.h / 2 + fontSize * 0.9}" text-anchor="middle" dominant-baseline="middle" font-size="${fontSize * 0.7}" fill="#94a3b8" font-weight="500">Nota ${cut.notaNum}</text>`;
+      });
+
+      // Garis potong (dashed)
+      if (lebarPerF4 <= 4) {
+        for (let i = 1; i < lebarPerF4; i++) {
+          const y = sheetH / lebarPerF4 * i;
+          svg1 += `<line x1="0" y1="${y}" x2="${sheetW}" y2="${y}" stroke="#f59e0b" stroke-width="0.2" stroke-dasharray="0.8 0.4"/>`;
+        }
+      } else if (lebarPerF4 === 6) {
+        svg1 += `<line x1="${sheetW / 2}" y1="0" x2="${sheetW / 2}" y2="${sheetH}" stroke="#f59e0b" stroke-width="0.2" stroke-dasharray="0.8 0.4"/>`;
+        for (let i = 1; i < 3; i++) {
+          const y = sheetH / 3 * i;
+          svg1 += `<line x1="0" y1="${y}" x2="${sheetW}" y2="${y}" stroke="#f59e0b" stroke-width="0.2" stroke-dasharray="0.8 0.4"/>`;
+        }
+      } else if (lebarPerF4 === 8) {
+        svg1 += `<line x1="${sheetW / 2}" y1="0" x2="${sheetW / 2}" y2="${sheetH}" stroke="#f59e0b" stroke-width="0.2" stroke-dasharray="0.8 0.4"/>`;
+        for (let i = 1; i < 4; i++) {
+          const y = sheetH / 4 * i;
+          svg1 += `<line x1="0" y1="${y}" x2="${sheetW}" y2="${y}" stroke="#f59e0b" stroke-width="0.2" stroke-dasharray="0.8 0.4"/>`;
+        }
+      }
+
+      // Dimensi lebar (bawah)
+      svg1 += `<line x1="0" y1="${sheetH + 2}" x2="${sheetW}" y2="${sheetH + 2}" stroke="#ef4444" stroke-width="0.4"/>`;
+      svg1 += `<line x1="0" y1="${sheetH}" x2="0" y2="${sheetH + 2}" stroke="#ef4444" stroke-width="0.3"/>`;
+      svg1 += `<line x1="${sheetW}" y1="${sheetH}" x2="${sheetW}" y2="${sheetH + 2}" stroke="#ef4444" stroke-width="0.3"/>`;
+      svg1 += `<text x="${sheetW / 2}" y="${sheetH + 4.5}" text-anchor="middle" font-size="2.5" fill="#ef4444" font-weight="700">${orientasi === 'portrait' ? F4_L : F4_P} cm</text>`;
+
+      // Dimensi tinggi (kanan)
+      svg1 += `<line x1="${sheetW + 2}" y1="0" x2="${sheetW + 2}" y2="${sheetH}" stroke="#ef4444" stroke-width="0.4"/>`;
+      svg1 += `<line x1="${sheetW}" y1="0" x2="${sheetW + 2}" y2="0" stroke="#ef4444" stroke-width="0.3"/>`;
+      svg1 += `<line x1="${sheetW}" y1="${sheetH}" x2="${sheetW + 2}" y2="${sheetH}" stroke="#ef4444" stroke-width="0.3"/>`;
+      svg1 += `<text x="${sheetW + 4.5}" y="${sheetH / 2}" text-anchor="middle" font-size="2.5" fill="#ef4444" font-weight="700" transform="rotate(-90 ${sheetW + 4.5} ${sheetH / 2})">${orientasi === 'portrait' ? F4_P : F4_L} cm</text>`;
+
+      // Label "F4"
+      svg1 += `<text x="${sheetW / 2}" y="-3" text-anchor="middle" font-size="2.8" fill="#94a3b8" font-weight="700">Kertas F4 — ${potonganLabels[lebarPerF4]} (${orientasi})</text>`;
+
+      svg1 += '</svg>';
+
+      // ── SVG 2: Preview Buku Nota (satu set nota) ──
+      const notaW = cuts[0].w;
+      const notaH = cuts[0].h;
+      const scale = Math.min(1, 16 / Math.max(notaW, notaH)); // scale agar pas
+      const nW = notaW * scale;
+      const nH = notaH * scale;
+      const layerGap = 1.2; // offset antar ply
+      const numPly = ply;
+      // Build ply keys & names dynamically based on ply count
+      const plyKeysMap = { 2: ['top', 'bottom'], 3: ['top', 'middle1', 'bottom'], 4: ['top', 'middle1', 'middle2', 'bottom'], 5: ['top', 'middle1', 'middle2', 'middle3', 'bottom'] };
+      const plyKeys = plyKeysMap[ply] || plyKeysMap[3];
+      const plyNames = plyKeys.map((k, i) => layerNames[k] || PLY_COLORS[k].label);
+      const svgNotaW = nW + (numPly - 1) * layerGap + 16;
+      const svgNotaH = nH + (numPly - 1) * layerGap + 12;
+
+      let svg2 = `<svg viewBox="-2 -4 ${svgNotaW} ${svgNotaH}" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;max-height:200px;">`;
+
+      // Gambar ply dari belakang ke depan
+      for (let i = numPly - 1; i >= 0; i--) {
+        const ox = i * layerGap;
+        const oy = i * layerGap;
+        const pc = PLY_COLORS[plyKeys[i]];
+
+        // Shadow
+        svg2 += `<rect x="${ox + 0.3}" y="${oy + 0.3}" width="${nW}" height="${nH}" fill="rgba(0,0,0,0.3)" rx="0.3"/>`;
+        // Main rect
+        svg2 += `<rect x="${ox}" y="${oy}" width="${nW}" height="${nH}" fill="${pc.fill}" stroke="${pc.stroke}" stroke-width="0.25" rx="0.3"/>`;
+
+        // Porporasi (garis sobek) — garis horizontal di 15% dari atas
+        const perfY = oy + nH * 0.15;
+        svg2 += `<line x1="${ox}" y1="${perfY}" x2="${ox + nW}" y2="${perfY}" stroke="${pc.stroke}" stroke-width="0.15" stroke-dasharray="0.5 0.3"/>`;
+
+        // Header nota
+        const hdrFontSize = Math.max(0.8, Math.min(1.4, nW / 8));
+        svg2 += `<text x="${ox + nW / 2}" y="${oy + nH * 0.08}" text-anchor="middle" dominant-baseline="middle" font-size="${hdrFontSize}" fill="${pc.text}" font-weight="700">NOTA</text>`;
+
+        // Garis-garis isian nota
+        const lineCount = Math.min(6, Math.floor(nH * 0.7 / 1.2));
+        const lineStartY = perfY + nH * 0.08;
+        const lineSpacing = (nH * 0.7) / (lineCount + 1);
+        for (let j = 0; j < lineCount; j++) {
+          const ly = lineStartY + (j + 1) * lineSpacing;
+          svg2 += `<line x1="${ox + nW * 0.08}" y1="${ly}" x2="${ox + nW * 0.92}" y2="${ly}" stroke="${pc.stroke}" stroke-width="0.1" opacity="0.4"/>`;
+        }
+
+        // Label ply
+        const labelFontSize = Math.max(0.7, Math.min(1.2, nW / 10));
+        svg2 += `<text x="${ox + nW / 2}" y="${oy + nH - nH * 0.05}" text-anchor="middle" dominant-baseline="middle" font-size="${labelFontSize}" fill="${pc.text}" font-weight="600" opacity="0.7">${pc.label}: ${plyNames[i]}</text>`;
+      }
+
+      // Label di samping
+      const labelX = nW + (numPly - 1) * layerGap + 3;
+      svg2 += `<text x="${labelX}" y="-1.5" text-anchor="start" font-size="1.6" fill="#94a3b8" font-weight="700">Preview Buku Nota</text>`;
+      svg2 += `<text x="${labelX}" y="1" text-anchor="start" font-size="1.1" fill="#64748b" font-weight="500">${numPly} rangkap × ${lembarPerBuku} lbr</text>`;
+      svg2 += `<text x="${labelX}" y="3" text-anchor="start" font-size="1.1" fill="#64748b" font-weight="500">Ukuran: ${fmt(notaW)}×${fmt(notaH)} cm</text>`;
+
+      svg2 += '</svg>';
+
+      // ── Gabung ke HTML ──
+      let html = '';
+
+      // Bagian 1: F4 dengan potongan
+      html += '<div class="viz-container" style="margin-bottom:16px;">';
+      html += `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">`;
+      html += `<span style="font-size:12px;font-weight:600;color:var(--text-secondary)">✂️ Pola Potongan Kertas F4</span>`;
+      html += `<span style="font-size:11px;color:var(--text-muted)">${potonganLabels[lebarPerF4]} · ${orientasi}</span>`;
+      html += '</div>';
+      html += svg1;
+      html += `<div class="viz-legend" style="margin-top:8px;">`;
+      html += `<span style="font-weight:600;color:var(--text-secondary)">Legenda:</span>`;
+      html += `<span>🔶 Garis putus = garis potong</span>`;
+      html += `<span>Setiap area berwarna = 1 lembar nota</span>`;
+      html += '</div>';
+      html += '</div>';
+
+      // Bagian 2: Preview buku
+      html += '<div class="viz-container">';
+      html += `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">`;
+      html += `<span style="font-size:12px;font-weight:600;color:var(--text-secondary)">📒 Preview Buku Nota (1 Set)</span>`;
+      html += `<span style="font-size:11px;color:var(--text-muted)">${numPly} ply · ${lembarPerBuku} lembar</span>`;
+      html += '</div>';
+      html += svg2;
+      html += `<div class="viz-legend" style="margin-top:8px;">`;
+      for (let i = 0; i < numPly; i++) {
+        const pc = PLY_COLORS[plyKeys[i]];
+        html += `<span><span class="viz-legend-dot" style="background:${pc.fill};border:1px solid ${pc.stroke}"></span> ${pc.label}: ${plyNames[i]}</span>`;
+      }
+      html += `<span style="color:var(--text-muted)">Garis putus = porporasi (sobek)</span>`;
+      html += '</div>';
+      html += '</div>';
+
+      return html;
+    }
+
+    // ── Setup currency inputs ──
+    function setupCurrencyInput(id) {
+      const el = document.getElementById(id);
+      el.addEventListener('input', () => {
+        const raw = el.value.replace(/\D/g, '');
+        el.value = raw ? new Intl.NumberFormat('id-ID').format(parseInt(raw)) : '';
+        calculate();
+      });
+    }
+    setupCurrencyInput('top-harga');
+    setupCurrencyInput('mid1-harga');
+    setupCurrencyInput('mid2-harga');
+    setupCurrencyInput('mid3-harga');
+    setupCurrencyInput('bot-harga');
+    setupCurrencyInput('cetak-per-lembar');
+    setupCurrencyInput('cetak-per-set');
+
+    // ── Setup numeric/text inputs ──
+    ['jumlah-buku', 'lembar-per-buku'].forEach(id => {
+      document.getElementById(id).addEventListener('input', e => {
+        e.target.value = e.target.value.replace(/\D/g, '');
+        calculate();
+      });
+    });
+
+    ['top-nama', 'mid1-nama', 'mid2-nama', 'mid3-nama', 'bot-nama'].forEach(id => {
+      document.getElementById(id).addEventListener('input', calculate);
+    });
+
+    ['ply', 'potongan', 'orientasi'].forEach(id => {
+      document.getElementById(id).addEventListener('change', calculate);
+    });
+
+    // ── Toggle middle sections based on ply ──
+    function updatePlyVisibility() {
+      const ply = parseInt(document.getElementById('ply').value);
+      document.getElementById('mid1-section').style.display = ply >= 3 ? 'block' : 'none';
+      document.getElementById('mid2-section').style.display = ply >= 4 ? 'block' : 'none';
+      document.getElementById('mid3-section').style.display = ply >= 5 ? 'block' : 'none';
+      document.getElementById('bottom-label-num').textContent = String(ply);
+      calculate();
+    }
+    document.getElementById('ply').addEventListener('change', updatePlyVisibility);
+    updatePlyVisibility();
+
+    function calculate() {
+      const jumlahBuku = parseInt(document.getElementById('jumlah-buku').value) || 0;
+      const lembarPerBuku = parseInt(document.getElementById('lembar-per-buku').value) || 0;
+      const ply = parseInt(document.getElementById('ply').value);
+      const lebarPerF4 = parseInt(document.getElementById('potongan').value);
+      const orientasi = document.getElementById('orientasi').value;
+
+      const layerNames = {
+        top: document.getElementById('top-nama').value || 'Top',
+        middle1: document.getElementById('mid1-nama').value || 'Middle 1',
+        middle2: document.getElementById('mid2-nama').value || 'Middle 2',
+        middle3: document.getElementById('mid3-nama').value || 'Middle 3',
+        bottom: document.getElementById('bot-nama').value || 'Bottom',
+      };
+      const layerPrices = {
+        top: parseRupiah(document.getElementById('top-harga').value),
+        middle1: parseRupiah(document.getElementById('mid1-harga').value),
+        middle2: parseRupiah(document.getElementById('mid2-harga').value),
+        middle3: parseRupiah(document.getElementById('mid3-harga').value),
+        bottom: parseRupiah(document.getElementById('bot-harga').value),
+      };
+
+      const resultPanel = document.getElementById('result-panel');
+      const vizContainer = document.getElementById('viz-container');
+
+      if (jumlahBuku <= 0 || lembarPerBuku <= 0) {
+        resultPanel.innerHTML = '<p style="color:var(--text-muted);font-size:13px;">Isi jumlah buku dan lembar per buku untuk melihat hasil.</p>';
+        vizContainer.innerHTML = '';
+        return;
+      }
+
+      const totalLembarPerLayer = jumlahBuku * lembarPerBuku;
+      const lembarF4PerLayer = Math.ceil(totalLembarPerLayer / lebarPerF4);
+      const rimPerLayer = Math.ceil(lembarF4PerLayer / LEMBAR_PER_RIM);
+
+      // Sisa lembar (waste dari pembulatan RIM)
+      const lembarTersedia = rimPerLayer * LEMBAR_PER_RIM; // lembar F4 yang dibeli
+      const sisaLembarF4 = lembarTersedia - lembarF4PerLayer;
+      const sisaNotaLembar = sisaLembarF4 * lebarPerF4; // sisa dalam satuan nota
+      const persenSisa = lembarTersedia > 0 ? (sisaLembarF4 / lembarTersedia) * 100 : 0;
+
+      const potonganLabels = { 2: '1/2 F4', 3: '1/3 F4', 4: '1/4 F4', 6: '1/6 F4', 8: '1/8 F4' };
+
+      // Ongkos cetak
+      const cetakPerLembar = parseRupiah(document.getElementById('cetak-per-lembar').value);
+
+      // Info
+      let html = '<div class="result-panel">';
+      html += `<div class="result-row"><span class="result-label">Total lembar per lapisan</span><span class="result-value">${totalLembarPerLayer.toLocaleString('id-ID')} lembar</span></div>`;
+      html += `<div class="result-row"><span class="result-label">Potongan</span><span class="result-value">${potonganLabels[lebarPerF4]} (${lebarPerF4} lebar)</span></div>`;
+      html += `<div class="result-row"><span class="result-label">Lembar F4 per lapisan</span><span class="result-value">${lembarF4PerLayer.toLocaleString('id-ID')} lembar</span></div>`;
+      html += `<div class="result-row"><span class="result-label">RIM per lapisan (bulat atas)</span><span class="result-value" style="font-weight:700">${rimPerLayer} RIM</span></div>`;
+      html += `<div class="result-row"><span class="result-label">Orientasi</span><span class="result-value" style="text-transform:capitalize">${orientasi}</span></div>`;
+
+      // Ukuran nota hasil potong
+      const { cuts, sheetW, sheetH } = computeF4Cuts(lebarPerF4, orientasi);
+      if (cuts.length > 0) {
+        html += `<div class="result-row"><span class="result-label">Ukuran per nota</span><span class="result-value" style="color:var(--accent-purple)">${cuts[0].label} cm</span></div>`;
+      }
+
+      // Sisa lembar info
+      html += '<hr class="result-divider">';
+      html += `<div class="result-row"><span class="result-label">Lembar F4 tersedia (${rimPerLayer} RIM)</span><span class="result-value">${lembarTersedia.toLocaleString('id-ID')} lembar</span></div>`;
+      html += `<div class="result-row"><span class="result-label">Lembar F4 terpakai</span><span class="result-value">${lembarF4PerLayer.toLocaleString('id-ID')} lembar</span></div>`;
+      if (sisaLembarF4 > 0) {
+        html += `<div class="result-row"><span class="result-label">Sisa lembar F4 per lapisan</span><span class="result-value" style="color:var(--accent-orange)">${sisaLembarF4.toLocaleString('id-ID')} lembar (${persenSisa.toFixed(1)}%)</span></div>`;
+        html += `<div class="result-row"><span class="result-label">Sisa dalam satuan nota</span><span class="result-value" style="color:var(--accent-orange)">${sisaNotaLembar.toLocaleString('id-ID')} lembar nota</span></div>`;
+      } else {
+        html += `<div class="result-row"><span class="result-label">Sisa lembar</span><span class="result-value" style="color:var(--accent-green)">0 — pas tanpa sisa ✓</span></div>`;
+      }
+
+      html += '</div>';
+
+      // Breakdown — dynamically based on ply count
+      let totalBiaya = 0;
+      const breakdown = [];
+      const activeKeysMap = { 2: ['top', 'bottom'], 3: ['top', 'middle1', 'bottom'], 4: ['top', 'middle1', 'middle2', 'bottom'], 5: ['top', 'middle1', 'middle2', 'middle3', 'bottom'] };
+      const activeKeys = activeKeysMap[ply] || activeKeysMap[3];
+
+      for (const key of activeKeys) {
+        const harga = layerPrices[key];
+        if (harga > 0) {
+          const sub = rimPerLayer * harga;
+          totalBiaya += sub;
+          breakdown.push({ label: `${PLY_COLORS[key].label}: ${layerNames[key]}`, rim: rimPerLayer, harga, sub });
+        }
+      }
+
+      if (breakdown.length > 0) {
+        html += '<div style="margin-top:16px;">';
+        html += '<div class="form-label" style="margin-bottom:8px;">Rincian biaya bahan per lapisan</div>';
+        html += '<div class="result-panel">';
+        for (const b of breakdown) {
+          html += `<div class="result-row"><span class="result-label">${b.label}</span><span class="result-value">${b.rim} RIM × ${formatCurrency(b.harga)} = ${formatCurrency(b.sub)}</span></div>`;
+        }
+        html += '</div>';
+        html += '</div>';
+      }
+
+      // Biaya cetak (opsional)
+      let biayaCetak = 0;
+      const cetakPerSet = parseRupiah(document.getElementById('cetak-per-set').value);
+      const biayaCetakPerLembar = cetakPerLembar > 0 ? lembarF4PerLayer * ply * cetakPerLembar : 0;
+      const biayaCetakPerSet = cetakPerSet > 0 ? ply * cetakPerSet : 0;
+      biayaCetak = biayaCetakPerLembar + biayaCetakPerSet;
+
+      if (biayaCetak > 0) {
+        html += '<div style="margin-top:16px;">';
+        html += '<div class="form-label" style="margin-bottom:8px;">Rincian biaya cetak</div>';
+        html += '<div class="result-panel">';
+        if (cetakPerLembar > 0) {
+          const totalLbrCetak = lembarF4PerLayer * ply;
+          html += `<div class="result-row"><span class="result-label">Per lembar: ${formatCurrency(cetakPerLembar)} × ${totalLbrCetak.toLocaleString('id-ID')} lbr</span><span class="result-value">${formatCurrency(biayaCetakPerLembar)}</span></div>`;
+        }
+        if (cetakPerSet > 0) {
+          html += `<div class="result-row"><span class="result-label">Per set/warna: ${formatCurrency(cetakPerSet)} × ${ply} ply</span><span class="result-value">${formatCurrency(biayaCetakPerSet)}</span></div>`;
+        }
+        if (cetakPerLembar > 0 && cetakPerSet > 0) {
+          html += '<hr class="result-divider">';
+        }
+        html += `<div class="result-row"><span class="result-label" style="font-weight:600">Total biaya cetak</span><span class="result-value" style="font-weight:700;color:var(--accent-blue)">${formatCurrency(biayaCetak)}</span></div>`;
+        html += '</div>';
+        html += '</div>';
+      }
+
+      // Grand total
+      const grandTotal = totalBiaya + biayaCetak;
+      html += '<div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">';
+      if (totalBiaya > 0 && biayaCetak > 0) {
+        html += `<div class="result-row" style="margin-bottom:4px;"><span class="result-label">Biaya bahan</span><span class="result-value">${formatCurrency(totalBiaya)}</span></div>`;
+        html += `<div class="result-row" style="margin-bottom:8px;"><span class="result-label">Biaya cetak</span><span class="result-value">${formatCurrency(biayaCetak)}</span></div>`;
+        html += '<hr class="result-divider">';
+      }
+      html += `<div class="result-row"><span style="font-weight:700;font-size:14px;">Total estimasi biaya</span><span class="result-value result-value-lg result-value-purple">${formatCurrency(grandTotal)}</span></div>`;
+      if (grandTotal > 0) {
+        const biayaPerBuku = jumlahBuku > 0 ? grandTotal / jumlahBuku : 0;
+        const biayaPerSetNota = jumlahBuku > 0 ? grandTotal / (jumlahBuku * lembarPerBuku) : 0;
+        html += `<div class="result-row" style="margin-top:4px;"><span class="result-label">Per buku (${jumlahBuku} buku)</span><span class="result-value result-value-green">${formatCurrency(biayaPerBuku)}</span></div>`;
+        html += `<div class="result-row"><span class="result-label">Per set nota (1 rangkap)</span><span class="result-value result-value-green">${formatCurrency(biayaPerSetNota)}</span></div>`;
+      }
+      if (grandTotal > 0 && biayaCetak === 0) {
+        html += '<div class="form-hint" style="margin-top:6px;">Belum termasuk ongkos cetak. Isi di bagian Biaya Cetak untuk menghitung total.</div>';
+      }
+      html += '</div>';
+
+      resultPanel.innerHTML = html;
+
+      // Render visualisasi
+      vizContainer.innerHTML = renderNcrSVG(lebarPerF4, orientasi, ply, lembarPerBuku, layerNames);
+    }
+
+    calculate();
+  </script>
+</body>
+
+</html>

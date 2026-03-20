@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0D1117">
+  <link rel="icon" type="image/png" href="../profil.png">
+  <title>Stiker Cutting — Tools Percetakan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <header class="header">
+      <div class="container">
+        <a href="https://1lhmjya.github.io/" class="back-link">
+          <i class="fa-solid fa-arrow-left" style="margin-right:6px;"></i>Kembali
+        </a>
+        <div class="header-page-info">
+          <div class="header-page-title">Kalkulator Stiker Cutting</div>
+          <div class="header-page-desc">Grid &amp; hex nesting, gap pisau, visualisasi layout</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+
+        <div class="cols cols-sidebar">
+          <!-- ══ INPUT ══ -->
+          <div class="bento-col">
+            <div class="card">
+              <div class="card-header card-header-orange">
+                <div class="card-header-icon card-header-icon-orange"><i class="fa-solid fa-sheet-plastic"></i></div>
+                <div class="card-header-text">
+                  <div class="card-title">Ukuran Bahan (Lembar)</div>
+                  <div class="card-desc">Isi ukuran bahan stiker (cm). Untuk A3+, area susunan otomatis dikurangi untuk marker sensor cutting.</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="form-row form-row-2">
+                  <div class="form-group">
+                    <label class="form-label">Panjang Bahan (cm)</label>
+                    <input type="text" id="bahan-p" class="form-input" value="48.5" inputmode="decimal">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Lebar Bahan (cm)</label>
+                    <input type="text" id="bahan-l" class="form-input" value="32.5" inputmode="decimal">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Proses Cutting (aturan A3+)</label>
+                  <select id="cutting-mode" class="form-select">
+                    <option value="cutting">Dengan cutting — area aman 30×46 cm</option>
+                    <option value="no-cutting">Tanpa cutting — area maksimal 32×48 cm</option>
+                  </select>
+                  <div class="form-hint">Hanya berlaku untuk lembar A3+ (48.5×32.5). Bahan ukuran lain dipakai penuh.
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Harga per Lembar (Rp) — opsional</label>
+                  <input type="text" id="harga-lembar" class="form-input" value="" inputmode="numeric" placeholder="0">
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-icon card-header-icon-blue"><i class="fa-solid fa-vector-square"></i></div>
+                <div class="card-header-text">
+                  <div class="card-title">Ukuran Stiker &amp; Gap</div>
+                  <div class="card-desc">Ukuran satu stiker (cm). Pilih bentuk untuk visualisasi. Gap/jarak pisau (mm) antar stiker.</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Bentuk Stiker</label>
+                  <select id="bentuk" class="form-select">
+                    <option value="persegi">Persegi / Persegi panjang</option>
+                    <option value="bulat">Bulat (lingkaran)</option>
+                    <option value="oval">Oval (ellips)</option>
+                  </select>
+                </div>
+                <div id="size-inputs">
+                  <div class="form-row form-row-2">
+                    <div class="form-group">
+                      <label class="form-label">Panjang Stiker (cm)</label>
+                      <input type="text" id="stiker-p" class="form-input" value="5" inputmode="decimal">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Lebar Stiker (cm)</label>
+                      <input type="text" id="stiker-l" class="form-input" value="5" inputmode="decimal">
+                    </div>
+                  </div>
+                </div>
+                <div id="diameter-input" style="display:none;">
+                  <div class="form-group">
+                    <label class="form-label">Diameter (cm)</label>
+                    <input type="text" id="stiker-d" class="form-input" value="5" inputmode="decimal">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Gap / Jarak Pisau (mm)</label>
+                  <input type="text" id="gap-mm" class="form-input" value="2" inputmode="decimal">
+                </div>
+              </div>
+            </div>
+
+            <!-- Biaya Cutting Opsional -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-icon card-header-icon-purple"><i class="fa-solid fa-scissors"></i></div>
+                <div class="card-header-text">
+                  <div class="card-title">Biaya Cutting (Opsional)</div>
+                  <div class="card-desc">Biaya mesin cutting per lembar. Kosongkan jika tidak perlu.</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Ongkos Cutting per Lembar (Rp)</label>
+                  <input type="text" id="cutting-cost" class="form-input" value="" inputmode="numeric" placeholder="0">
+                  <div class="form-hint">Biaya cutting akan ditambahkan ke total. Biaya /pcs = (harga bahan + cutting) /
+                    jumlah stiker.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Kebutuhan -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-icon card-header-icon-orange"><i class="fa-solid fa-boxes-stacked"></i></div>
+                <div class="card-header-text">
+                  <div class="card-title">Kebutuhan (Opsional)</div>
+                  <div class="card-desc">Isi salah satu atau keduanya untuk kalkulasi lengkap.</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="form-row form-row-2">
+                  <div class="form-group">
+                    <label class="form-label">Jumlah Lebar (lembar)</label>
+                    <input type="text" id="kebutuhan-lebar" class="form-input" value="" inputmode="numeric"
+                      placeholder="0">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Jumlah Pcs (buah)</label>
+                    <input type="text" id="kebutuhan-pcs" class="form-input" value="" inputmode="numeric"
+                      placeholder="0">
+                  </div>
+                </div>
+                <div id="kebutuhan-result"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══ HASIL ══ -->
+          <div class="bento-col">
+            <div class="card">
+              <div class="card-header card-header-orange">
+                <div class="card-header-icon card-header-icon-orange"><i class="fa-solid fa-chart-bar"></i></div>
+                <div class="card-header-text">
+                  <div class="card-title">Hasil Grid</div>
+                  <div class="card-desc">Jumlah stiker per lembar bahan, layout, biaya per pcs, dan visualisasi layout.</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="result-panel"></div>
+                <div id="viz-container" style="margin-top:16px;"></div>
+              </div>
+            </div>
+
+            <!-- Comparison Card -->
+            <div class="card" id="comparison-card" style="display:none;">
+              <div class="card-header card-header-blue">
+                <div class="card-header-icon card-header-icon-blue"><i class="fa-solid fa-table-columns"></i></div>
+                <div class="card-header-text">
+                  <div class="card-title">Perbandingan Bahan</div>
+                  <div class="card-desc">Bandingkan yield stiker pada bahan berbeda. Isi ukuran dan harga bahan kedua.</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="form-row form-row-2" style="margin-bottom:12px;">
+                  <div class="form-group">
+                    <label class="form-label">Panjang Bahan 2 (cm)</label>
+                    <input type="text" id="comp-p" class="form-input" value="" inputmode="decimal"
+                      placeholder="e.g. 30">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Lebar Bahan 2 (cm)</label>
+                    <input type="text" id="comp-l" class="form-input" value="" inputmode="decimal"
+                      placeholder="e.g. 21">
+                  </div>
+                </div>
+                <div class="form-group" style="margin-bottom:12px;">
+                  <label class="form-label">Harga Bahan 2 per Lembar (Rp)</label>
+                  <input type="text" id="comp-harga" class="form-input" value="" inputmode="numeric" placeholder="0">
+                </div>
+                <div id="comparison-result"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container" style="display:flex;align-items:center;justify-content:center;gap:10px;">
+        <span>Tools Percetakan Pro — <em>Made With Logic and Math</em></span>
+        <a href="https://1lhmjya.github.io/" target="_blank" rel="noopener" title="GitHub Profile"
+          style="display:inline-flex;align-items:center;color:var(--text-muted);transition:0.2s;"
+          onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"
+            aria-label="GitHub">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.922.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 21.796 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // ════════════════════════════════════════════════
+    //  Stiker Cutting — Enhanced
+    // ════════════════════════════════════════════════
+
+    // ── Tab switcher for Hex vs Grid visualization ──
+    let explicitVizTab = null;
+    function switchVizTab(tab) {
+      explicitVizTab = tab;
+      calculate(true);
+    }
+
+    function formatCurrency(n) {
+      const num = typeof n === 'string' ? parseFloat(n) : n;
+      if (isNaN(num)) return 'Rp 0';
+      return 'Rp ' + new Intl.NumberFormat('id-ID').format(Math.round(num));
+    }
+    function fmt(n) { return n % 1 === 0 ? String(n) : n.toFixed(1); }
+    function parseDecimal(s) {
+      if (!s || !String(s).trim()) return 0;
+      const n = parseFloat(String(s).trim().replace(',', '.'));
+      return Number.isFinite(n) ? n : 0;
+    }
+    function sanitizeDecimalInput(input) {
+      let s = input.replace(/[^\d.,]/g, '');
+      const lastDot = s.lastIndexOf('.'), lastComma = s.lastIndexOf(',');
+      if (lastDot >= 0 && lastComma >= 0) { if (lastDot > lastComma) s = s.replace(/,/g, ''); else s = s.replace(/\./g, ''); }
+      const sep = s.includes(',') ? ',' : '.';
+      const parts = s.split(sep);
+      if (parts.length > 2) s = parts[0] + sep + parts.slice(1).join('');
+      return s;
+    }
+    function parseRupiah(s) {
+      if (!s) return 0;
+      return parseInt(String(s).replace(/\D/g, ''), 10) || 0;
+    }
+    function setupCurrencyInput(id) {
+      const el = document.getElementById(id);
+      el.addEventListener('input', () => {
+        const raw = el.value.replace(/\D/g, '');
+        el.value = raw ? new Intl.NumberFormat('id-ID').format(parseInt(raw)) : '';
+        calculate();
+      });
+    }
+
+    // ── A3+ Constants & Functions ──
+    const A3P = 48.5, A3L = 32.5, TOL = 0.2;
+    const EFF_CUT_P = 46, EFF_CUT_L = 30;
+    const EFF_NO_P = 48, EFF_NO_L = 32;
+    const FULL_P = A3P, FULL_L = A3L;
+
+    function isA3Plus(p, l) {
+      return (Math.abs(p - A3P) <= TOL && Math.abs(l - A3L) <= TOL) || (Math.abs(p - A3L) <= TOL && Math.abs(l - A3P) <= TOL);
+    }
+
+    function getEffectiveArea(p, l, withCutting) {
+      if (!isA3Plus(p, l)) return { efektifP: p, efektifL: l, isA3: false, fullP: p, fullL: l };
+      const fullP = Math.max(p, l);
+      const fullL = Math.min(p, l);
+      if (withCutting) return { efektifP: EFF_CUT_P, efektifL: EFF_CUT_L, isA3: true, fullP, fullL };
+      return { efektifP: EFF_NO_P, efektifL: EFF_NO_L, isA3: true, fullP, fullL };
+    }
+
+    function computeStikerYield(bahanP, bahanL, stikerP, stikerL, gapCm) {
+      if (bahanP <= 0 || bahanL <= 0 || stikerP <= 0 || stikerL <= 0) return null;
+      const cP = stikerP + gapCm, cL = stikerL + gapCm;
+      const kP = Math.floor(bahanL / cL), bP = Math.floor(bahanP / cP), tP = kP * bP;
+      const kL = Math.floor(bahanL / cP), bL = Math.floor(bahanP / cL), tL = kL * bL;
+      if (tP >= tL) return { total: tP, kolom: kP, baris: bP, orientasi: 'portrait', cellW: cL, cellH: cP, mode: 'grid' };
+      return { total: tL, kolom: kL, baris: bL, orientasi: 'landscape', cellW: cP, cellH: cL, mode: 'grid' };
+    }
+
+    /**
+     * Hexagonal (zigzag) packing — untuk stiker bulat & oval.
+     * Baris ganjil di-offset setengah lebar cell secara horizontal.
+     * Jarak antar pusat baris = cellSize × sin(60°) ≈ 0.866 × cellSize
+     * Otomatis coba kedua orientasi dan semua kombinasi offset awal.
+     */
+    function computeHexYield(bahanP, bahanL, stikerP, stikerL, gapCm) {
+      if (bahanP <= 0 || bahanL <= 0 || stikerP <= 0 || stikerL <= 0) return null;
+
+      // Untuk bulat stikerP === stikerL (diameter). Untuk oval, paksa hex juga.
+      let bestTotal = -1, bestLayout = null;
+
+      // Coba dua orientasi lembar: [W, H] = [lebar, panjang] atau sebaliknya
+      for (const [W, H, ori] of [[bahanL, bahanP, 'portrait'], [bahanP, bahanL, 'landscape']]) {
+        const cellW = stikerP + gapCm;  // lebar cell (horizontal)
+        const cellH = stikerL + gapCm;  // tinggi cell (vertikal) — ukuran stiker di arah ini
+        // Dalam orientasi portrait: stikerW=stikerL (lebar stiker) sepanjang W, stikerH=stikerP sepanjang H
+        const sW = ori === 'portrait' ? stikerL : stikerP;
+        const sH = ori === 'portrait' ? stikerP : stikerL;
+        const hSpacing = sW + gapCm;   // pusat-ke-pusat horizontal
+        const vSpacing = sH + gapCm;   // pusat-ke-pusat vertical baseline
+        const hexRowH = vSpacing * Math.sin(Math.PI / 3); // ≈ 0.866 × vSpacing
+        const r = sW / 2, rH = sH / 2;
+
+        // Coba dua variasi: baris 0 tanpa offset, atau baris 0 dengan offset
+        for (const startOffset of [0, hSpacing / 2]) {
+          const rowData = [];
+          let y = rH;          // pusat baris pertama
+          let rowIdx = 0;
+          let total = 0;
+
+          while (y + rH <= H + 0.001) {
+            const offset = (rowIdx % 2 === 0) ? 0 : hSpacing / 2;
+            const xStart = r + ((startOffset + offset) % hSpacing);
+            let cols = 0;
+            let x = xStart;
+            while (x + r <= W + 0.001) { cols++; x += hSpacing; }
+            rowData.push({ y, cols, xStart });
+            total += cols;
+            y += hexRowH;
+            rowIdx++;
+          }
+
+          if (total > bestTotal) {
+            bestTotal = total;
+            bestLayout = {
+              total, orientasi: ori,
+              mode: 'hex', hexRowH, hSpacing, sW, sH, r, rH,
+              rowData, startOffset,
+              cellW: hSpacing, cellH: hexRowH
+            };
+          }
+        }
+      }
+
+      return bestLayout;
+    }
+
+    // ── SVG Rendering ──
+    const STIKER_COLORS = [
+      { fill: 'rgba(252,211,77,0.6)', stroke: '#d97706' },   // amber
+      { fill: 'rgba(147,197,253,0.5)', stroke: '#3b82f6' },   // blue
+      { fill: 'rgba(167,243,208,0.5)', stroke: '#10b981' },   // green
+      { fill: 'rgba(196,181,253,0.5)', stroke: '#8b5cf6' },   // purple
+      { fill: 'rgba(253,164,175,0.5)', stroke: '#f43f5e' },   // rose
+      { fill: 'rgba(165,243,252,0.5)', stroke: '#06b6d4' },   // cyan
+    ];
+
+    function renderStikerSVG(efektifP, efektifL, result, stikerP, stikerL, gapCm, bentuk, isA3, fullP, fullL) {
+      const pad = 8;
+      const drawP = isA3 ? fullP : efektifP;
+      const drawL = isA3 ? fullL : efektifL;
+      const vbW = drawL + pad * 2, vbH = drawP + pad * 2;
+      const effOffsetX = isA3 ? (drawL - efektifL) / 2 : 0;
+      const effOffsetY = isA3 ? (drawP - efektifP) / 2 : 0;
+
+      let svg = `<svg viewBox="-${pad} -${pad} ${vbW} ${vbH}" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;max-height:400px;">`;
+      svg += `<rect x="0" y="0" width="${drawL}" height="${drawP}" fill="#1e293b" stroke="#475569" stroke-width="0.3" rx="0.3"/>`;
+
+      // A3+ marker area overlay
+      if (isA3) {
+        svg += `<rect x="${effOffsetX}" y="${effOffsetY}" width="${efektifL}" height="${efektifP}" fill="none" stroke="#3b82f6" stroke-width="0.25" stroke-dasharray="1 0.5" rx="0.2"/>`;
+        if (effOffsetY > 0.1) {
+          svg += `<rect x="0" y="0" width="${drawL}" height="${effOffsetY}" fill="rgba(239,68,68,0.08)"/>`;
+          svg += `<text x="${drawL / 2}" y="${effOffsetY / 2}" text-anchor="middle" dominant-baseline="middle" font-size="1.4" fill="#ef4444" opacity="0.7">marker</text>`;
+          svg += `<rect x="0" y="${effOffsetY + efektifP}" width="${drawL}" height="${drawP - effOffsetY - efektifP}" fill="rgba(239,68,68,0.08)"/>`;
+          svg += `<text x="${drawL / 2}" y="${effOffsetY + efektifP + (drawP - effOffsetY - efektifP) / 2}" text-anchor="middle" dominant-baseline="middle" font-size="1.4" fill="#ef4444" opacity="0.7">marker</text>`;
+        }
+        if (effOffsetX > 0.1) {
+          svg += `<rect x="0" y="${effOffsetY}" width="${effOffsetX}" height="${efektifP}" fill="rgba(239,68,68,0.08)"/>`;
+          svg += `<rect x="${effOffsetX + efektifL}" y="${effOffsetY}" width="${drawL - effOffsetX - efektifL}" height="${efektifP}" fill="rgba(239,68,68,0.08)"/>`;
+        }
+        svg += `<text x="${drawL / 2}" y="-3" text-anchor="middle" font-size="2" fill="#3b82f6" font-weight="600">Area efektif: ${fmt(efektifL)}×${fmt(efektifP)} cm</text>`;
+      }
+
+      // Draw stickers
+      let num = 1;
+
+      if (result.mode === 'hex') {
+        // ── Hexagonal / zigzag packing render ──
+        const { rowData, hSpacing, sW, sH, r, rH, orientasi: hexOri } = result;
+        rowData.forEach((row) => {
+          let x = row.xStart;
+          for (let col = 0; col < row.cols; col++) {
+            // In hex packing:
+            //   x  → arah hSpacing (kolom), mapped to W (=efektifL for portrait, efektifP for landscape)
+            //   row.y → arah baris,         mapped to H (=efektifP for portrait, efektifL for landscape)
+            // For SVG: SVG-x is horizontal (efektifL), SVG-y is vertical (efektifP).
+            // Portrait: packing-x → SVG-x, packing-y → SVG-y  (no swap needed)
+            // Landscape: packing-x → SVG-y, packing-y → SVG-x  (swap!)
+            let cx, cy, rx_svg, ry_svg;
+            if (hexOri === 'portrait') {
+              cx = effOffsetX + x;
+              cy = effOffsetY + row.y;
+              rx_svg = sW / 2;
+              ry_svg = sH / 2;
+            } else {
+              cx = effOffsetX + row.y;   // packing row.y → SVG horizontal
+              cy = effOffsetY + x;       // packing col x  → SVG vertical
+              rx_svg = sH / 2;           // also swap radii for oval
+              ry_svg = sW / 2;
+            }
+            const ci = num % STIKER_COLORS.length;
+            const sc = STIKER_COLORS[ci];
+
+            if (bentuk === 'bulat') {
+              svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${sc.fill}" stroke="${sc.stroke}" stroke-width="0.2"/>`;
+            } else {
+              svg += `<ellipse cx="${cx}" cy="${cy}" rx="${rx_svg}" ry="${ry_svg}" fill="${sc.fill}" stroke="${sc.stroke}" stroke-width="0.2"/>`;
+            }
+            // Label
+            const labelSize = Math.max(0.8, Math.min(2.2, r / 2.5));
+            if (r > 0.8) svg += `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" font-size="${labelSize}" fill="${sc.stroke}" font-weight="700" opacity="0.9">${num}</text>`;
+
+            num++;
+            x += hSpacing;
+          }
+        });
+      } else {
+        // ── Standard grid render ──
+        const { kolom, baris, cellW, cellH, orientasi } = result;
+        const sW = orientasi === 'portrait' ? stikerL : stikerP;
+        const sH = orientasi === 'portrait' ? stikerP : stikerL;
+        const gapHalf = gapCm / 2;
+        const usedW = kolom * cellW, usedH = baris * cellH;
+        const offsetX = effOffsetX + (efektifL - usedW) / 2;
+        const offsetY = effOffsetY + (efektifP - usedH) / 2;
+
+        for (let row = 0; row < baris; row++) {
+          for (let col = 0; col < kolom; col++) {
+            const x = offsetX + col * cellW + gapHalf;
+            const y = offsetY + row * cellH + gapHalf;
+            const cx = x + sW / 2, cy = y + sH / 2;
+            const ci = num % STIKER_COLORS.length;
+            const sc = STIKER_COLORS[ci];
+
+            if (bentuk === 'persegi') {
+              svg += `<rect x="${x}" y="${y}" width="${sW}" height="${sH}" fill="${sc.fill}" stroke="${sc.stroke}" stroke-width="0.2" rx="0.15"/>`;
+            } else if (bentuk === 'bulat') {
+              svg += `<circle cx="${cx}" cy="${cy}" r="${Math.min(sW, sH) / 2}" fill="${sc.fill}" stroke="${sc.stroke}" stroke-width="0.2"/>`;
+            } else {
+              svg += `<ellipse cx="${cx}" cy="${cy}" rx="${sW / 2}" ry="${sH / 2}" fill="${sc.fill}" stroke="${sc.stroke}" stroke-width="0.2"/>`;
+            }
+            const labelSize = Math.max(0.8, Math.min(2, Math.min(sW, sH) / 3.5));
+            if (sW > 1.5 && sH > 1.5) svg += `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" font-size="${labelSize}" fill="${sc.stroke}" font-weight="700" opacity="0.85">${num}</text>`;
+            num++;
+          }
+        }
+      }
+
+      // Dimension lines
+      svg += `<line x1="0" y1="${drawP + 2}" x2="${drawL}" y2="${drawP + 2}" stroke="#ef4444" stroke-width="0.4"/>`;
+      svg += `<line x1="0" y1="${drawP}" x2="0" y2="${drawP + 2}" stroke="#ef4444" stroke-width="0.3"/>`;
+      svg += `<line x1="${drawL}" y1="${drawP}" x2="${drawL}" y2="${drawP + 2}" stroke="#ef4444" stroke-width="0.3"/>`;
+      svg += `<text x="${drawL / 2}" y="${drawP + 4.5}" text-anchor="middle" font-size="2.5" fill="#ef4444" font-weight="700">${fmt(drawL)} cm</text>`;
+      svg += `<line x1="${drawL + 2}" y1="0" x2="${drawL + 2}" y2="${drawP}" stroke="#ef4444" stroke-width="0.4"/>`;
+      svg += `<line x1="${drawL}" y1="0" x2="${drawL + 2}" y2="0" stroke="#ef4444" stroke-width="0.3"/>`;
+      svg += `<line x1="${drawL}" y1="${drawP}" x2="${drawL + 2}" y2="${drawP}" stroke="#ef4444" stroke-width="0.3"/>`;
+      svg += `<text x="${drawL + 4.5}" y="${drawP / 2}" text-anchor="middle" font-size="2.5" fill="#ef4444" font-weight="700" transform="rotate(-90 ${drawL + 4.5} ${drawP / 2})">${fmt(drawP)} cm</text>`;
+
+      svg += '</svg>';
+      return svg;
+    }
+
+    // ══ Enhancement #6: Auto-copy diameter ↔ panjang/lebar ══
+    const bentukSelect = document.getElementById('bentuk');
+    const sizeInputs = document.getElementById('size-inputs');
+    const diameterInput = document.getElementById('diameter-input');
+    let prevBentuk = 'persegi';
+
+    bentukSelect.addEventListener('change', () => {
+      const newBentuk = bentukSelect.value;
+
+      if (newBentuk === 'bulat' && prevBentuk !== 'bulat') {
+        // Switching TO bulat: take min(p, l) as diameter
+        const p = parseDecimal(document.getElementById('stiker-p').value);
+        const l = parseDecimal(document.getElementById('stiker-l').value);
+        const d = Math.min(p, l) || p || l || 5;
+        document.getElementById('stiker-d').value = fmt(d);
+        sizeInputs.style.display = 'none';
+        diameterInput.style.display = 'block';
+      } else if (newBentuk !== 'bulat' && prevBentuk === 'bulat') {
+        // Switching FROM bulat: copy diameter to both p and l
+        const d = parseDecimal(document.getElementById('stiker-d').value) || 5;
+        document.getElementById('stiker-p').value = fmt(d);
+        document.getElementById('stiker-l').value = fmt(d);
+        sizeInputs.style.display = 'block';
+        diameterInput.style.display = 'none';
+      }
+      // persegi ↔ oval: no change needed, keep p and l
+
+      prevBentuk = newBentuk;
+      calculate();
+    });
+
+    // ── Setup inputs ──
+    ['bahan-p', 'bahan-l', 'stiker-p', 'stiker-l', 'stiker-d', 'gap-mm'].forEach(id => {
+      document.getElementById(id).addEventListener('input', e => {
+        e.target.value = sanitizeDecimalInput(e.target.value);
+        calculate();
+      });
+    });
+    document.getElementById('cutting-mode').addEventListener('change', calculate);
+
+    setupCurrencyInput('harga-lembar');
+    setupCurrencyInput('cutting-cost');
+    setupCurrencyInput('comp-harga');
+
+    ['kebutuhan-lebar', 'kebutuhan-pcs'].forEach(id => {
+      document.getElementById(id).addEventListener('input', e => {
+        e.target.value = e.target.value.replace(/\D/g, '');
+        calculate();
+      });
+    });
+
+    // Comparison inputs
+    ['comp-p', 'comp-l'].forEach(id => {
+      document.getElementById(id).addEventListener('input', e => {
+        e.target.value = sanitizeDecimalInput(e.target.value);
+        calculate();
+      });
+    });
+
+    function calculate(fromSwitch = false) {
+      if (fromSwitch !== true) {
+        explicitVizTab = null;
+      }
+      const bahanP = parseDecimal(document.getElementById('bahan-p').value);
+      const bahanL = parseDecimal(document.getElementById('bahan-l').value);
+      const withCutting = document.getElementById('cutting-mode').value === 'cutting';
+      const bentuk = bentukSelect.value;
+      const stikerP = bentuk === 'bulat' ? parseDecimal(document.getElementById('stiker-d').value) : parseDecimal(document.getElementById('stiker-p').value);
+      const stikerL = bentuk === 'bulat' ? parseDecimal(document.getElementById('stiker-d').value) : parseDecimal(document.getElementById('stiker-l').value);
+      const gapMm = parseDecimal(document.getElementById('gap-mm').value);
+      const gapCm = gapMm / 10;
+      const hargaPerLembar = parseRupiah(document.getElementById('harga-lembar').value);
+      const cuttingCost = parseRupiah(document.getElementById('cutting-cost').value);
+
+      const { efektifP, efektifL, isA3, fullP, fullL } = getEffectiveArea(bahanP, bahanL, withCutting);
+
+      // For bulat/oval: try both grid and hex, pick the best
+      const gridResult = computeStikerYield(efektifP, efektifL, stikerP, stikerL, gapCm);
+      let hexResult2 = null;
+      if (bentuk === 'bulat' || bentuk === 'oval') {
+        hexResult2 = computeHexYield(efektifP, efektifL, stikerP, stikerL, gapCm);
+      }
+      
+      const showTabs = (bentuk === 'bulat' || bentuk === 'oval') && gridResult && gridResult.total > 0 && hexResult2;
+      let activeHex = false;
+      
+      if (showTabs) {
+        if (explicitVizTab === 'hex') {
+          activeHex = true;
+        } else if (explicitVizTab === 'grid') {
+          activeHex = false;
+        } else {
+          activeHex = hexResult2.total >= gridResult.total;
+        }
+      } else if (hexResult2 && hexResult2.total > (gridResult?.total ?? 0)) {
+        activeHex = true;
+      }
+      
+      let result = activeHex ? hexResult2 : gridResult;
+
+      const resultPanel = document.getElementById('result-panel');
+      const vizContainer = document.getElementById('viz-container');
+      const compCard = document.getElementById('comparison-card');
+
+      if (!result || result.total <= 0) {
+        resultPanel.innerHTML = '<p style="color:var(--text-muted);font-size:13px;">Isi ukuran bahan dan stiker (semua &gt; 0) untuk melihat hasil.</p>';
+        vizContainer.innerHTML = '';
+        document.getElementById('kebutuhan-result').innerHTML = '';
+        compCard.style.display = 'none';
+        return;
+      }
+
+      // Show comparison card once we have a result
+      compCard.style.display = 'block';
+
+      const costPerSheet = hargaPerLembar + cuttingCost;
+      const biayaPerPcs = result.total > 0 && costPerSheet > 0 ? costPerSheet / result.total : 0;
+
+      const isHex = result.mode === 'hex';
+      const gridTotal = gridResult?.total ?? 0;
+      const hexGain = isHex && gridResult ? result.total - gridTotal : 0;
+
+      let html = '<div class="result-panel">';
+      if (isA3) html += `<div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.15);border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:12px;color:var(--accent-orange);font-weight:500;">A3+ terdeteksi — area efektif: ${efektifP}×${efektifL} cm (${withCutting ? 'dengan' : 'tanpa'} cutting)</div>`;
+
+      // Packing mode badge
+      if (isHex) {
+        html += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">`;
+        html += `<span style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--accent-green);">⬡ Hex Zigzag Packing</span>`;
+        if (hexGain > 0) html += `<span style="font-size:11px;color:var(--accent-green);">+${hexGain} pcs vs grid biasa</span>`;
+        html += `</div>`;
+      }
+
+      html += `<div class="result-row"><span class="result-label">Stiker per lembar</span><span class="result-value result-value-lg result-value-orange">${result.total} pcs</span></div>`;
+
+      if (isHex) {
+        const numRows = result.rowData.length;
+        const avgCols = (result.total / numRows).toFixed(1);
+        html += `<div class="result-row"><span class="result-label">Layout (hex)</span><span class="result-value">${numRows} baris × ~${avgCols} kolom (${result.orientasi})</span></div>`;
+        html += `<div class="result-row"><span class="result-label">Jarak baris</span><span class="result-value">${result.hexRowH.toFixed(2)} cm (sin 60° × ${(result.hSpacing).toFixed(2)} cm)</span></div>`;
+      } else {
+        html += `<div class="result-row"><span class="result-label">Layout</span><span class="result-value">${result.kolom}×${result.baris} (${result.orientasi})</span></div>`;
+        html += `<div class="result-row"><span class="result-label">Orientasi</span><span class="result-value">${result.orientasi === 'portrait' ? 'Panjang stiker vertikal' : 'Panjang stiker horizontal'}</span></div>`;
+      }
+
+      // Waste — for hex circles, actual stiker area uses π
+      const stikerAreaActual = bentuk === 'bulat'
+        ? Math.PI * (stikerP / 2) * (stikerP / 2) * result.total
+        : stikerP * stikerL * result.total;
+      const totalArea = efektifP * efektifL;
+      const wastePercent = totalArea > 0 ? ((totalArea - stikerAreaActual) / totalArea * 100) : 0;
+      html += `<div class="result-row"><span class="result-label">Waste area</span><span class="result-value" style="color:${wastePercent > 30 ? 'var(--accent-red)' : 'var(--accent-green)'}">${wastePercent.toFixed(1)}%</span></div>`;
+
+      if (costPerSheet > 0) {
+        html += '<hr class="result-divider">';
+        if (hargaPerLembar > 0) html += `<div class="result-row"><span class="result-label">Harga bahan/lembar</span><span class="result-value">${formatCurrency(hargaPerLembar)}</span></div>`;
+        if (cuttingCost > 0) html += `<div class="result-row"><span class="result-label">Ongkos cutting/lembar</span><span class="result-value">${formatCurrency(cuttingCost)}</span></div>`;
+        if (hargaPerLembar > 0 && cuttingCost > 0) html += `<div class="result-row"><span class="result-label">Total biaya/lembar</span><span class="result-value">${formatCurrency(costPerSheet)}</span></div>`;
+        html += `<div class="result-row"><span class="result-label" style="font-weight:600">Biaya per pcs</span><span class="result-value result-value-green" style="font-weight:700">${formatCurrency(biayaPerPcs)}</span></div>`;
+      }
+      html += '</div>';
+      resultPanel.innerHTML = html;
+
+      // SVG visualization with Hex/Grid toggle
+      const bentukLabel = bentuk === 'persegi' ? 'Persegi' : bentuk === 'bulat' ? 'Bulat' : 'Oval';
+      const bpLabel = isA3
+        ? `Lembar A3+ ${fmt(fullP || A3P)}×${fmt(fullL || A3L)} cm → Area efektif ${efektifP}×${efektifL} cm`
+        : `Bahan ${fmt(bahanP)}×${fmt(bahanL)} cm`;
+      const legendA3 = isA3
+        ? `<span><span class="viz-legend-dot" style="background:rgba(239,68,68,0.15);border:1px solid #ef4444"></span> Marker</span>
+       <span><span class="viz-legend-dot" style="background:none;border:1px dashed #3b82f6"></span> Area efektif</span>`
+        : '';
+
+      // Show comparison tabs only for bulat/oval when hexResult exists and differs
+
+      if (showTabs) {
+        const hexLabel = `${hexResult2.rowData.length} baris zigzag = ${hexResult2.total} pcs`;
+        const gridLabel = `${gridResult.kolom}×${gridResult.baris} = ${gridResult.total} pcs`;
+
+        vizContainer.innerHTML = `<div class="viz-container">
+      <!-- Tab buttons -->
+      <div style="display:flex;gap:6px;margin-bottom:12px;">
+        <button id="tab-hex" onclick="switchVizTab('hex')"
+          style="flex:1;padding:7px 0;font-size:12px;font-weight:700;border-radius:8px;border:1px solid;cursor:pointer;transition:0.15s;
+                 background:${activeHex ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.04)'};
+                 border-color:${activeHex ? '#10b981' : 'rgba(255,255,255,0.1)'};
+                 color:${activeHex ? 'var(--accent-green)' : 'var(--text-secondary)'};">
+          ⬡ Hex Zigzag &nbsp;<span style="opacity:0.7;font-weight:500">${hexResult2.total} pcs</span>
+          ${hexResult2.total > gridResult.total ? '<span style="font-size:10px;margin-left:4px;background:rgba(16,185,129,0.2);padding:1px 5px;border-radius:4px;">+' + (hexResult2.total - gridResult.total) + ' pcs</span>' : ''}
+        </button>
+        <button id="tab-grid" onclick="switchVizTab('grid')"
+          style="flex:1;padding:7px 0;font-size:12px;font-weight:700;border-radius:8px;border:1px solid;cursor:pointer;transition:0.15s;
+                 background:${!activeHex ? 'rgba(59,130,246,0.15)' : 'rgba(255,255,255,0.04)'};
+                 border-color:${!activeHex ? '#3b82f6' : 'rgba(255,255,255,0.1)'};
+                 color:${!activeHex ? 'var(--accent-blue)' : 'var(--text-secondary)'};">
+          ⊞ Grid Biasa &nbsp;<span style="opacity:0.7;font-weight:500">${gridResult.total} pcs</span>
+        </button>
+      </div>
+
+      <!-- Hex SVG -->
+      <div id="viz-hex" style="display:${activeHex ? 'block' : 'none'}">
+        ${renderStikerSVG(efektifP, efektifL, hexResult2, stikerP, stikerL, gapCm, bentuk, isA3, fullP || bahanP, fullL || bahanL)}
+        <div class="viz-legend" style="margin-top:8px;">
+          <span>Setiap angka = 1 stiker</span>
+          <span><span class="viz-legend-dot" style="background:rgba(16,185,129,0.15);border:1px solid #10b981"></span> Zigzag hex</span>
+          ${legendA3}
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${bpLabel} · Gap ${gapMm} mm · ${hexLabel}</div>
+      </div>
+
+      <!-- Grid SVG -->
+      <div id="viz-grid" style="display:${!activeHex ? 'block' : 'none'}">
+        ${renderStikerSVG(efektifP, efektifL, gridResult, stikerP, stikerL, gapCm, bentuk, isA3, fullP || bahanP, fullL || bahanL)}
+        <div class="viz-legend" style="margin-top:8px;">
+          <span>Setiap angka = 1 stiker</span>
+          ${legendA3}
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${bpLabel} · Gap ${gapMm} mm · ${gridLabel}</div>
+      </div>
+    </div>`;
+
+      } else {
+        // persegi — only grid, no toggle needed
+        const layoutLabel = `${result.kolom}×${result.baris} = ${result.total} pcs`;
+        vizContainer.innerHTML = `<div class="viz-container">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">
+        <span style="font-size:12px;font-weight:500;color:var(--text-muted)">Visualisasi layout</span>
+        <span style="font-size:12px;font-weight:500;color:var(--text-secondary)">${layoutLabel} · ${bentukLabel}</span>
+      </div>
+      ${renderStikerSVG(efektifP, efektifL, result, stikerP, stikerL, gapCm, bentuk, isA3, fullP || bahanP, fullL || bahanL)}
+      <div class="viz-legend" style="margin-top:8px;">
+        <span>Setiap angka = 1 stiker</span>
+        ${legendA3}
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${bpLabel} · Gap ${gapMm} mm · ${layoutLabel}</div>
+    </div>`;
+      }
+
+      // Kebutuhan
+      const kLebar = parseInt(document.getElementById('kebutuhan-lebar').value) || 0;
+      const kPcs = parseInt(document.getElementById('kebutuhan-pcs').value) || 0;
+      const pcsPerLembar = result.total;
+      let kHtml = '';
+      if (kLebar > 0 || kPcs > 0) {
+        kHtml = '<div class="result-panel" style="margin-top:12px;">';
+        if (kLebar > 0) {
+          const totalPcs = kLebar * pcsPerLembar;
+          const totalBiaya = kLebar * costPerSheet;
+          kHtml += `<div class="result-row"><span class="result-label">Total pcs (${kLebar} × ${pcsPerLembar})</span><span class="result-value">${totalPcs.toLocaleString('id-ID')} pcs</span></div>`;
+          if (costPerSheet > 0) kHtml += `<div class="result-row"><span class="result-label">Total biaya</span><span class="result-value result-value-green">${formatCurrency(totalBiaya)}</span></div>`;
+        }
+        if (kPcs > 0) {
+          const lebarButuh = Math.ceil(kPcs / pcsPerLembar);
+          const totalBiaya = lebarButuh * costPerSheet;
+          kHtml += `<div class="result-row"><span class="result-label">Lebar dibutuhkan (${kPcs.toLocaleString('id-ID')} pcs)</span><span class="result-value">${lebarButuh.toLocaleString('id-ID')} lebar</span></div>`;
+          if (costPerSheet > 0) kHtml += `<div class="result-row"><span class="result-label">Total biaya</span><span class="result-value result-value-green">${formatCurrency(totalBiaya)}</span></div>`;
+        }
+        kHtml += '</div>';
+      }
+      document.getElementById('kebutuhan-result').innerHTML = kHtml;
+
+      // ══ Enhancement #3: Comparison ══
+      const compP = parseDecimal(document.getElementById('comp-p').value);
+      const compL = parseDecimal(document.getElementById('comp-l').value);
+      const compHarga = parseRupiah(document.getElementById('comp-harga').value);
+      const compResultEl = document.getElementById('comparison-result');
+
+      if (compP > 0 && compL > 0) {
+        const { efektifP: cEP, efektifL: cEL, isA3: cA3 } = getEffectiveArea(compP, compL, withCutting);
+        const compResult = computeStikerYield(cEP, cEL, stikerP, stikerL, gapCm);
+
+        if (compResult && compResult.total > 0) {
+          const compCostPcs = compHarga > 0 && compResult.total > 0 ? compHarga / compResult.total : 0;
+          const diff = compResult.total - result.total;
+          const diffPct = result.total > 0 ? ((diff / result.total) * 100) : 0;
+          const betterLabel = diff > 0 ? 'Bahan 2 lebih banyak' : diff < 0 ? 'Bahan 1 lebih banyak' : 'Sama';
+          const betterColor = diff > 0 ? 'var(--accent-green)' : diff < 0 ? 'var(--accent-red)' : 'var(--accent-orange)';
+
+          let cHtml = '<div class="result-panel">';
+          cHtml += `<div style="display:flex;gap:12px;margin-bottom:8px;">`;
+          // Bahan 1 summary
+          cHtml += `<div style="flex:1;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.15);border-radius:8px;padding:10px;text-align:center;">`;
+          cHtml += `<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Bahan 1 (${fmt(bahanP)}×${fmt(bahanL)})</div>`;
+          cHtml += `<div style="font-size:20px;font-weight:800;color:var(--accent-orange)">${result.total} pcs</div>`;
+          if (costPerSheet > 0) cHtml += `<div style="font-size:12px;color:var(--accent-green);font-weight:600;margin-top:2px;">${formatCurrency(biayaPerPcs)}/pcs</div>`;
+          cHtml += `</div>`;
+          // VS
+          cHtml += `<div style="display:flex;align-items:center;font-weight:800;color:var(--text-muted);font-size:14px;">VS</div>`;
+          // Bahan 2 summary
+          cHtml += `<div style="flex:1;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15);border-radius:8px;padding:10px;text-align:center;">`;
+          cHtml += `<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Bahan 2 (${fmt(compP)}×${fmt(compL)})</div>`;
+          cHtml += `<div style="font-size:20px;font-weight:800;color:var(--accent-blue)">${compResult.total} pcs</div>`;
+          if (compCostPcs > 0) cHtml += `<div style="font-size:12px;color:var(--accent-green);font-weight:600;margin-top:2px;">${formatCurrency(compCostPcs)}/pcs</div>`;
+          cHtml += `</div>`;
+          cHtml += `</div>`;
+
+          // Verdict
+          cHtml += `<div style="text-align:center;padding:8px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">`;
+          cHtml += `<span style="font-size:13px;font-weight:600;color:${betterColor}">${betterLabel} (${diff > 0 ? '+' : ''}${diff} pcs / ${diffPct > 0 ? '+' : ''}${diffPct.toFixed(1)}%)</span>`;
+
+          // Price comparison if both have prices
+          if (biayaPerPcs > 0 && compCostPcs > 0) {
+            const cheaper = biayaPerPcs < compCostPcs ? 'Bahan 1' : compCostPcs < biayaPerPcs ? 'Bahan 2' : 'Sama';
+            const savings = Math.abs(biayaPerPcs - compCostPcs);
+            cHtml += `<div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">${cheaper} lebih murah ${formatCurrency(savings)}/pcs</div>`;
+          }
+          cHtml += `</div>`;
+          cHtml += '</div>';
+          compResultEl.innerHTML = cHtml;
+        } else {
+          compResultEl.innerHTML = '<p style="color:var(--text-muted);font-size:12px;margin-top:8px;">Stiker tidak muat di bahan 2.</p>';
+        }
+      } else {
+        compResultEl.innerHTML = '<p style="color:var(--text-muted);font-size:12px;margin-top:8px;">Isi ukuran bahan 2 untuk melihat perbandingan.</p>';
+      }
+    }
+
+    calculate();
+  </script>
+</body>
+
+</html>
